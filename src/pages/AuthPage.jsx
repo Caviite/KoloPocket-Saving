@@ -66,7 +66,7 @@ function AuthPage() {
 
     } catch (error) {
       console.log(error);
-      setError(error.response?.data?.message || "NETWORK ERROR: Check Your Internet Connection")
+      setError(error.response?.data?.message || "An Error Occuirred")
     } finally {
       setLoadingSignup(false)
     }
@@ -96,7 +96,7 @@ function AuthPage() {
 
     } catch (error) {
       console.log(error);
-      setError(error.response?.data?.message || "NETWORK ERROR: Check Your Internet Connection")
+      setError(error.response?.data?.message || "An Error Occuirred")
     } finally {
       setLoadingSignin(false)
     }
