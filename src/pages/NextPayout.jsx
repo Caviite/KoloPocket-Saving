@@ -104,8 +104,8 @@ export default function NextPayout() {
                 const nextPayout = contributions[0];
 
                 // Get contributor name - with better fallback
-                const contributorName = nextPayout.contributorName || 'Unknown';
-                const contributorInitial = (nextPayout.contributorName || 'U')[0]?.toUpperCase();
+                let contributorName = nextPayout.contributorName || 'Unknown';
+                let contributorInitial = (nextPayout.contributorName || 'U')[0]?.toUpperCase();
 
                 if (nextPayout.contributorId) {
                   if (typeof nextPayout.contributorId === 'object' && nextPayout.contributorId.name) {
