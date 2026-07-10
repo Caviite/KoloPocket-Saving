@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { privateInstance } from "../api/api";
-import './SendPayout.css';
+import './Sendpayout.css';
 
 // ─── Internal SVG Icon System ────────────────────────────────────────────────
 const Icon = ({ name, size = 20, className = '' }) => {
