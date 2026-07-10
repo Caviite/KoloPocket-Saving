@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "./Icon";
-import "./Sidebar.css";
+import "./sidebar.css";
 import kplogo from "../pages/Dashboard logo.png";// Your original light/default logo[cite: 4]
 import kplogoDark from "../pages/Darrk theme logo.png"; // Updated filename to Darrk theme logo.png
 import { authContext } from '../Context/authcontext'; //[cite: 4]
