@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import NextPayout from './pages/NextPayout';
 import Transactions from './pages/Transaction';
 import CommissionDashboard from './pages/Commission';
-import SendPayout from './pages/SendPayout';
+import SendPayout from './pages/Sendpayout';
 import ContributorsPage from './pages/Contributor';
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Landingpage />} />
+        <Route path="/" element={<Landingpage />} /> 
         <Route path="/auth" element={<Authpage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/creategroup" element={<Createajogroup />} />
