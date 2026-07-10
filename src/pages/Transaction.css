@@ -1,0 +1,136 @@
+/* ==========================================================================
+   DEFAULT CLEAN LIGHT LAYOUT (#16a34a & #FFFFFF)
+   ========================================================================== */
+
+.tx-page-main {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tx-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.tx-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background-color: #FFFFFF;
+  color: #1F2937;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tx-back-btn:hover {
+  background-color: #F3F4F6;
+}
+
+.tx-page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Search Wrapper matching image_a54522.png layout structure */
+.tx-search-container {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.tx-search-icon {
+  color: #9CA3AF;
+}
+
+.tx-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 15px;
+  color: #111827;
+}
+
+.tx-search-input::placeholder {
+  color: #9CA3AF;
+}
+
+.tx-full-panel {
+  width: 100%;
+}
+
+.tx-panel-info {
+  padding: 16px 20px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.tx-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+.tx-state-msg {
+  padding: 40px;
+  text-align: center;
+  color: #6B7280;
+}
+
+/* ==========================================================================
+   DARK THEME ATTACHMENT TINT MATRIX
+   ========================================================================== */
+
+[data-theme="dark"] {
+  & .tx-back-btn {
+    background-color: #222F4C;
+    border-color: #222F4C;
+    color: #FFFFFF;
+  }
+
+  & .tx-back-btn:hover {
+    background-color: #2D3D60;
+  }
+
+  & .tx-page-title {
+    color: #FFFFFF;
+  }
+
+  & .tx-search-container {
+    background-color: #0B0F19;
+    border-color: #222F4C;
+  }
+
+  & .tx-search-input {
+    color: #FFFFFF;
+  }
+
+  & .tx-search-input::placeholder {
+    color: #8A99AD;
+  }
+
+  & .tx-panel-info {
+    border-bottom-color: #222F4C;
+  }
+
+  & .tx-count {
+    color: #8A99AD;
+  }
+
+  & .tx-state-msg {
+    color: #8A99AD;
+  }
+}

@@ -1,0 +1,1249 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Light Fintech Palette from ChatGPT Image Jun 9, 2026, 01_18_32 PM.png */
+.settings-light-theme {
+  background-color: #F8FAFC;
+  /* Clean off-white app background */
+  color: #1E293B;
+  /* Dark slate primary text */
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.settings-main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0;
+  background: #F8FAFC;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   HEADER SECTION & CARD OVERLAY
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-premium-hero {
+  background: linear-gradient(135deg, #16A34A 0%, #0a8a5f 50%, #16A34A 100%);
+  padding: 2.5rem 2rem;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);
+  margin-bottom: 2rem;
+}
+
+.hero-top-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.settings-back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.settings-back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-2px);
+}
+
+.settings-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+}
+
+.settings-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* Premium Light Profile Summary Card */
+.hero-profile-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #064E3B;
+  /* Darker green circle from image */
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-text-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-text-meta h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.verified-badge {
+  background: #FFFFFF;
+  color: #059669;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   GLOBAL TOP CONTENT HEADER (OUTSIDE THE GREEN CARD)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-global-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem 1.25rem 2rem;
+  background: transparent;
+}
+
+.settings-page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0F172A;
+  /* Slate 900 text color from image */
+  margin: 0;
+  padding-right: 110px;
+  /* letter-spacing: -0.5px; */
+}
+
+.settings-page-subtitle {
+  font-size: 14px;
+  color: #64748B;
+  /* Soft muted gray secondary text */
+  margin-top: 4px;
+  padding-left: 20px;
+}
+
+/* Utilities Block (Right Side) */
+.header-utilities-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.utility-bell-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+}
+
+.bell-dot-indicator {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 7px;
+  height: 7px;
+  background-color: #10B981;
+  /* Green notification badge dot */
+  border-radius: 50%;
+  border: 1px solid #FFFFFF;
+}
+
+.utility-profile-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.mini-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #022C22;
+  /* Very deep green circle avatar from image */
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.mini-profile-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   INDEPENDENT GREEN BANNER CARD
+   ───────────────────────────────────────────────────────────────────────── */
+
+.green-profile-banner-card {
+  background: linear-gradient(135deg, #059669 0%, #10B981 70%, #059669 100%);
+  margin: 0 2rem 2rem 2rem;
+  padding: 1.75rem 2rem;
+  border-radius: 18px;
+  /* Clean rounded card corners */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
+}
+
+.banner-profile-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Avatar container with inner ring & camera tag */
+.banner-avatar-container {
+  position: relative;
+}
+
+.banner-main-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #022C22;
+  /* Deep background color inside avatar container */
+  border: 2px solid #FFFFFF;
+  /* High contrast border ring */
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.avatar-camera-badge {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid #E2E8F0;
+}
+
+/* Banner text content styles */
+.banner-text-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.banner-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.banner-text-meta h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.banner-verified-check {
+  background: #FFFFFF;
+  color: #059669;
+  font-size: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+/* Badge for "Premium Saver" */
+.banner-tier-pill {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 100px;
+  width: max-content;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Standalone White Edit Profile Button */
+.banner-edit-button {
+  background: #FFFFFF;
+  color: #0F172A;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.banner-edit-button:hover {
+  background: #F8FAFC;
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE LAYOUT OVERRIDES
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .settings-global-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 1.5rem 1rem 1rem 1rem;
+  }
+
+  .header-utilities-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .green-profile-banner-card {
+    margin: 0 1rem 1.5rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 1.5rem;
+  }
+
+  .banner-edit-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SETTINGS CARDS (WHITE FINTECH CONTAINER BLOCKS)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-content {
+  padding: 0 2rem 120px 2rem;
+}
+
+.settings-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+.settings-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.settings-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #F1F5F9;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.settings-card-header:hover {
+  background: #FAFBFC;
+}
+
+/* Rounded Circle Green Background For Icons as per reference image */
+.settings-icon-wrapper {
+  background-color: #059669;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-meta-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: #0F172A;
+}
+
+.card-desc-sub {
+  font-size: 12px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.settings-card-body {
+  padding: 0;
+}
+
+.settings-card-body.expanded-padding {
+  padding: 1.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MENU LINES & DATA ROWS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 1.5rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  color: #64748B;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.settings-value {
+  color: #1E293B;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.settings-menu-item,
+.settings-toggle {
+  width: 100%;
+  padding: 14px 1.5rem;
+  background: transparent;
+  border: none;
+  color: #1E293B;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #F1F5F9;
+  text-align: left;
+}
+
+.settings-menu-item:hover {
+  background: #FAFBFC;
+}
+
+.settings-menu-item:last-child,
+.settings-toggle:last-child {
+  border-bottom: none;
+}
+
+.menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #334155;
+}
+
+.structure-row-fallback {
+  cursor: default !important;
+}
+
+.structure-row-fallback:hover {
+  background: transparent !important;
+}
+
+.badge-value-text {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.badge-value-text.text-green {
+  color: #059669;
+  font-weight: 600;
+}
+
+.color-dot-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #059669;
+  display: inline-block;
+}
+
+.settings-edit-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #F1F5F9;
+  color: #059669;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.settings-edit-btn:hover {
+  background: rgba(5, 150, 105, 0.04);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   FORM PANEL STYLING
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-form {
+  padding: 1.5rem;
+  background: #FAFBFC;
+  border-top: 1px solid #E2E8F0;
+}
+
+.settings-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.settings-form-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: #94A3B8;
+}
+
+.settings-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.settings-form-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settings-input {
+  padding: 12px 16px;
+  border: 1px solid #CBD5E1;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #FFFFFF;
+  color: #0F172A;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.settings-input:hover {
+  border-color: #059669;
+}
+
+.settings-input:focus {
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.settings-save-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.settings-save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   FINTECH TOGGLE SWITCH
+   ───────────────────────────────────────────────────────────────────────── */
+
+.settings-toggle-btn {
+  width: 46px;
+  height: 26px;
+  background: #E2E8F0;
+  /* Soft gray background when off */
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.settings-toggle-btn.active {
+  background: #059669;
+  /* Rich vivid green from image */
+}
+
+.settings-toggle-btn::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.settings-toggle-btn.active::after {
+  left: 23px;
+}
+
+.flush-row {
+  padding: 12px 0 0 0 !important;
+  border: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THEME OPTIONS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 1.25rem;
+  border-top: 1px solid #F1F5F9;
+  background: #FAFBFC;
+}
+
+.theme-btn {
+  display: flex;
+  flex-direction: row;
+  /* Switch to row to stop vertical stacking pushes */
+  align-items: center;
+  /* Centers vertically */
+  justify-content: center;
+  /* Centers horizontally */
+  text-align: center;
+
+  padding: 2px 3px;
+  height: 32px;
+  /* Explicitly set a comfortable small height */
+  line-height: 1;
+  /* Strips out extra top/bottom text line spacing */
+
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+/* Force any internal text spans to have zero margin or offset anomalies */
+.theme-btn span {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+
+.theme-btn:hover {
+  border-color: #059669;
+  color: #0F172A;
+}
+
+.theme-btn.active {
+  background: rgba(5, 150, 105, 0.06);
+  border: 2px solid #059669;
+  color: #059669;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   LOGOUT CARD DESIGN
+   ───────────────────────────────────────────────────────────────────────── */
+
+.logout-card-wrapper {
+  cursor: pointer;
+}
+
+.clean-logout-row {
+  border-bottom: none !important;
+}
+
+.logout-icon-wrapper {
+  background-color: #FEE2E2;
+  /* Soft red rounded background from image */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logout-text-color {
+  color: #EF4444 !important;
+}
+
+.logout-card-wrapper:hover {
+  border-color: #FCA5A5;
+  background: #FFFBFB;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RESPONSIVE LAYOUT MEDIA QUERIES
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .settings-premium-hero {
+    padding: 2rem 1.25rem;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .settings-content {
+    padding: 0 1rem 120px 1rem;
+  }
+
+  .settings-title {
+    font-size: 26px;
+  }
+
+  .hero-profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .hero-edit-trigger {
+    width: 100%;
+    text-align: center;
+  }
+
+  .theme-options {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* ==========================================================================
+   EXACT PREMIUM DARK THEME OVERRIDES
+   Upgraded with the high-end #0D0F12 / #14181F architecture from Commission.css
+   ========================================================================== */
+
+[data-theme="dark"] {
+  /* ── Root App Backgrounds ── */
+  background-color: #0D0F12 !important;
+  color: #FFFFFF !important;
+
+  /* ── Source 6: Ajo Group Details Page ── */
+  & .details-root {
+    background: #0D0F12;
+  }
+  & .details-header {
+    background: #14181F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .back-btn {
+    background: rgba(255, 255, 255, 0.07);
+  }
+  & .back-btn:hover {
+    background: #1C212B;
+  }
+  & .header-title {
+    color: #FFFFFF;
+  }
+  & .stat-box {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .stat-label {
+    color: #9CA3AF;
+  }
+  & .stat-value {
+    color: #FFFFFF;
+  }
+  & .progress-section {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .progress-header h3 {
+    color: #FFFFFF;
+  }
+  & .progress-track {
+    background: rgba(255, 255, 255, 0.07);
+  }
+  & .progress-info {
+    color: #9CA3AF;
+  }
+  & .members-section {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .section-title {
+    color: #FFFFFF;
+  }
+  & .member-card {
+    background: #0D0F12;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .member-card:hover {
+    background: #1C212B;
+  }
+  & .member-name {
+    color: #FFFFFF;
+  }
+  & .member-email {
+    color: #9CA3AF;
+  }
+  & .loading-text, & .empty-text {
+    color: #9CA3AF;
+  }
+
+  /* ── Source 7: Dashboard Core Layout ── */
+  & .dashboard-root {
+    background: #0D0F12;
+  }
+  & .sidebar {
+    background: #14181F;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .sidebar-logo {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .logo-slot {
+    background: rgba(22, 163, 74, 0.15);
+  }
+  & .nav-item {
+    color: #9CA3AF;
+  }
+  & .nav-item:hover {
+    background: rgba(22, 163, 74, 0.15);
+    color: #10B981;
+  }
+  & .dashboard-header {
+    background: #14181F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .bell-btn {
+    background: rgba(255, 255, 255, 0.07);
+  }
+  & .bell-btn:hover {
+    background: #1C212B;
+  }
+  & .greeting-name {
+    color: #FFFFFF;
+  }
+  & .greeting-sub {
+    color: #9CA3AF;
+  }
+  & .payout-card {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .payout-label {
+    color: #9CA3AF;
+  }
+  & .payout-sub {
+    color: #9CA3AF;
+  }
+  & .payout-amount {
+    color: #FFFFFF;
+  }
+  & .payout-date {
+    color: #9CA3AF;
+  }
+  & .view-details-btn {
+    background: rgba(22, 163, 74, 0.15);
+  }
+  & .view-details-btn:hover {
+    background: rgba(22, 163, 74, 0.25);
+  }
+  & .stat-card {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .stat-icon-wrap {
+    background: rgba(22, 163, 74, 0.15);
+  }
+  & .stat-label {
+    color: #9CA3AF;
+  }
+  & .stat-value {
+    color: #FFFFFF;
+  }
+  & .panel-card {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .panel-title {
+    color: #FFFFFF;
+  }
+  & .ajo-row, & .tx-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .ajo-name, & .tx-label {
+    color: #FFFFFF;
+  }
+  & .ajo-meta, & .tx-sub, & .ajo-cycle-weeks, & .tx-date {
+    color: #9CA3AF;
+  }
+  & .bottom-nav {
+    background: #14181F;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  /* ── Source 8: All Ajo Groups View ── */
+  & .all-ajo-root {
+    background: #0D0F12;
+  }
+  & .all-ajo-header {
+    background: #14181F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .header-title {
+    color: #FFFFFF;
+  }
+  & .search-container {
+    background: #0D0F12;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .search-input {
+    color: #FFFFFF;
+  }
+  & .search-input::placeholder {
+    color: #9CA3AF;
+  }
+  & .groups-panel {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .panel-info {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .group-count {
+    color: #9CA3AF;
+  }
+  & .ajo-row:hover {
+    background: #1C212B;
+  }
+
+  /* ── Source 9: Wizard (Create Ajo Group) ── */
+  & .cg-root {
+    background-color: #0D0F12;
+    color: #FFFFFF;
+  }
+  & .cg-page-title, & .cg-step-title {
+    color: #FFFFFF;
+  }
+  & .cg-step-label, & .cg-step-sub, & .cg-label {
+    color: #9CA3AF;
+  }
+  & .step-dot {
+    background-color: #1C212B;
+  }
+  & .cg-content {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .cg-input, & .cg-textarea, & .cg-search {
+    background-color: #0D0F12;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+  }
+  & .cg-input:hover, & .cg-textarea:hover {
+    border-color: #1C212B;
+  }
+  & .cycle-btn {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #9CA3AF;
+  }
+  & .cycle-btn:hover {
+    background-color: rgba(22, 163, 74, 0.15);
+  }
+  & .cycle-btn.active {
+    background-color: rgba(22, 163, 74, 0.2);
+  }
+  & .contrib-item {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .contrib-item:hover {
+    background-color: #1C212B;
+  }
+  & .contrib-item.selected {
+    background-color: rgba(22, 163, 74, 0.15);
+  }
+  & .contrib-name {
+    color: #FFFFFF;
+  }
+  & .contrib-meta {
+    color: #9CA3AF;
+  }
+  & .contrib-check {
+    border: 2px solid rgba(255, 255, 255, 0.07);
+  }
+  & .selected-chips-wrap, & .review-card {
+    background: #0D0F12;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .review-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .review-key {
+    color: #9CA3AF;
+  }
+  & .review-val {
+    color: #FFFFFF;
+  }
+  & .cg-btn-ghost {
+    color: #9CA3AF;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .cg-btn-ghost:hover {
+    background-color: #1C212B;
+    color: #FFFFFF;
+  }
+  & .member-row {
+    background-color: #0D0F12;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .member-name {
+    color: #FFFFFF;
+  }
+  & .member-phone {
+    color: #9CA3AF;
+  }
+
+  /* ── Source 10: Next Payout Block ── */
+  & .next-payout-container {
+    background: linear-gradient(135deg, #14181F 0%, #0D0F12 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .payout-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.07);
+  }
+  & .payout-header h2 {
+    color: #FFFFFF;
+  }
+  & .payout-count, & .group-badge, & .timeline {
+    color: #9CA3AF;
+  }
+  & .group-badge {
+    background: #1C212B;
+  }
+  & .payout-card {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .contributor-name {
+    color: #FFFFFF;
+  }
+  & .payout-summary {
+    background: linear-gradient(135deg, #0D0F12 0%, #14181F 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .summary-item .value {
+    color: #FFFFFF;
+  }
+  & .summary-divider {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  /* ── Source 11: Settings Blocks ── */
+  & .settings-light-theme {
+    background-color: #0D0F12;
+    color: #FFFFFF;
+  }
+  & .settings-main {
+    background: #0D0F12;
+  }
+  & .settings-page-title {
+    color: #FFFFFF;
+  }
+  & .settings-page-subtitle, & .badge-value-text {
+    color: #9CA3AF;
+  }
+  & .utility-bell-wrapper {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .mini-profile-name {
+    color: #FFFFFF;
+  }
+  & .banner-edit-button {
+    background: #14181F;
+    color: #FFFFFF;
+  }
+  & .banner-edit-button:hover {
+    background: #1C212B;
+  }
+  & .settings-card {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .settings-card:hover {
+    border-color: #1C212B;
+  }
+  & .settings-card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .settings-card-header:hover {
+    background: #1C212B;
+  }
+  & .settings-card-title {
+    color: #FFFFFF;
+  }
+  & .card-desc-sub {
+    color: #9CA3AF;
+  }
+  & .settings-row, & .settings-menu-item, & .settings-toggle {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+  }
+  & .settings-menu-item:hover {
+    background: #1C212B;
+  }
+  & .menu-item-left {
+    color: #FFFFFF;
+  }
+  & .settings-label {
+    color: #9CA3AF;
+  }
+  & .settings-value {
+    color: #FFFFFF;
+  }
+  & .settings-edit-btn {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .settings-form {
+    background: #0D0F12;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .settings-form-header {
+    color: #FFFFFF;
+  }
+  & .settings-form-label {
+    color: #9CA3AF;
+  }
+  & .settings-input {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+  }
+  & .settings-toggle-btn {
+    background: #1C212B;
+  }
+  & .theme-options {
+    background: #0D0F12;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  & .theme-btn {
+    background: #14181F;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #9CA3AF;
+  }
+  & .theme-btn:hover {
+    color: #FFFFFF;
+    border-color: #1C212B;
+  }
+}

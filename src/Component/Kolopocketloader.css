@@ -1,103 +1,111 @@
-.kp-loader {
+/* Container backdrop mask that applies glassmorphism frosting to everything behind it */
+.kp-loader-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  background: #050505;
+  z-index: 99999; /* Ensure it stays above navigation sidebars */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 5, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  transition: backdrop-filter 0.3s ease;
+}
+
+/* Minimalist center cluster anchor */
+.kp-loader-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 28px;
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow: hidden;
+  gap: 18px;
+  padding: 32px;
+  border-radius: 16px;
 }
-/* Subtle starfield-like background grain */
-.kp-loader::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-      circle at 20% 30%,
-      rgba(22, 163, 74, 0.04) 0,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(22, 163, 74, 0.03) 0,
-      transparent 50%
-    );
-  pointer-events: none;
-}
-/* Radial glow behind the infinity loop */
-.kp-loader__glow {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(34, 197, 94, 0.28) 0%,
-    rgba(22, 163, 74, 0.12) 30%,
-    rgba(22, 163, 74, 0.04) 55%,
-    transparent 75%
-  );
-  filter: blur(40px);
-  animation: kp-glow-pulse 3s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes kp-glow-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.85; }
-  50% { transform: scale(1.12); opacity: 1; }
-}
-.kp-loader__stage {
+
+/* Relative context wrapper to float the icon cleanly inside the spinner ring boundary paths */
+.kp-spinner-wrapper {
   position: relative;
-  z-index: 2;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.kp-loader__infinity {
-  overflow: visible;
+
+/* 2-tone minimal rotating loading circle track */
+.kp-sleek-spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(22, 163, 74, 0.12); /* Subtle green track */
+  border-top-color: #16a34a; /* Vibrant solid active segment */
+  animation: kp-spin 0.85s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
-/* Bright "light" segment chases around the path */
-.kp-loader__light {
-  animation: kp-trace 2.4s linear infinite;
+
+/* Absolute center absolute container aligning your green wallet matrix paths */
+.kp-center-wallet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(22, 163, 74, 0.08);
+  border-radius: 50%;
+  animation: kp-pulse-glow 2s ease-in-out infinite;
 }
-/* Trailing softer glow chases just behind the bright light */
-.kp-loader__trail {
-  animation: kp-trace 2.4s linear infinite;
-  animation-delay: -0.05s;
-  filter: blur(2px);
+
+/* Modern low key micro text tracking */
+.kp-loader-caption {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f3f4f6;
+  display: flex;
+  align-items: center;
 }
-@keyframes kp-trace {
-  to {
-    stroke-dashoffset: -1;
+
+/* Sleek step jumping tracking loading points */
+.kp-loader-dots {
+  display: inline-flex;
+  margin-left: 4px;
+  gap: 3px;
+}
+
+.kp-loader-dots span {
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  display: inline-block;
+  animation: kp-dot-bounce 1.4s infinite ease-in-out both;
+}
+
+.kp-loader-dots span:nth-child(1) { animation-delay: -0.32s; }
+.kp-loader-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+/* Keyframe definition layouts */
+@keyframes kp-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes kp-pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    background: rgba(22, 163, 74, 0.06);
+  }
+  50% {
+    transform: scale(1.04);
+    background: rgba(22, 163, 74, 0.14);
+    box-shadow: 0 0 16px rgba(22, 163, 74, 0.1);
   }
 }
-/* "Loading..." text */
-.kp-loader__text {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-  display: inline-flex;
-  align-items: baseline;
-}
-.kp-loader__dots {
-  display: inline-flex;
-  margin-left: 2px;
-}
-.kp-loader__dots span {
-  display: inline-block;
-  animation: kp-dot 1.4s ease-in-out infinite;
-}
-.kp-loader__dots span:nth-child(2) { animation-delay: 0.2s; }
-.kp-loader__dots span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes kp-dot {
-  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
-  40% { opacity: 1; transform: translateY(-2px); }
+
+@keyframes kp-dot-bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
 }

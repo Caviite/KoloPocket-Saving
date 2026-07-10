@@ -1,0 +1,817 @@
+/* ------------------------------------------------------------------
+   COMMISSION DASHBOARD STYLES – DUAL THEME (DARK / LIGHT)
+   FILE SPECIFICATION: Commission.css
+   PRIMARY ACCENT: #16a34a
+   ------------------------------------------------------------------ */
+
+/* ---------- ROOT VARIABLES : DARK THEME (DEFAULT) ---------- */
+:root {
+  /* Core backgrounds */
+  --app-bg: #0d0f12;
+  --card-bg: #14181f;
+  --card-hover: #1c212b;
+
+  /* Brand Colors & Accent Theme Glows */
+  --primary-green: #16a34a;
+  --primary-glow: rgba(22, 163, 74, 0.15);
+
+  /* Typography */
+  --text-primary: #f3f4f6;
+  --text-muted: #9ca3af;
+
+  /* Borders & structural lines */
+  --border-color: rgba(255, 255, 255, 0.07);
+
+  /* System Messaging & Error States */
+  --error-bg: rgba(239, 68, 68, 0.12);
+  --error-border: #ef4444;
+  --error-text: #fca5a5;
+
+  /* Linear Accent Gradients */
+  --gradient-start: var(--text-primary);
+  --gradient-end: #22c55e;
+
+  /* Layout Radius Rules & Transitions */
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.25s ease;
+
+  /* Elevation Surface Shadow Layout Map (Dark Mode) */
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- LIGHT THEME OVERRIDES ---------- */
+:root[data-theme="light"],
+body.light-theme {
+  /* Core backgrounds */
+  --app-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --card-hover: #f1f5f9;
+
+  /* Brand Colors (Keeping high-contrast web accessible signature green) */
+  --primary-green: #16a34a;
+  --primary-glow: rgba(22, 163, 74, 0.08);
+
+  /* Typography */
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+
+  /* Borders & structural lines */
+  --border-color: rgba(15, 23, 42, 0.08);
+
+  /* System Messaging & Error States */
+  --error-bg: rgba(239, 68, 68, 0.06);
+  --error-border: #dc2626;
+  --error-text: #b91c1c;
+
+  /* Linear Accent Gradients */
+  --gradient-start: var(--text-primary);
+  --gradient-end: #15803d;
+
+  /* Elevation Surface Shadow Layout Map (Light Mode) */
+  --card-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  --card-shadow-hover: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* ---------- RESET / BASE ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- LAYOUT WRAPPER ---------- */
+.comm-dashboard-root {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  background: var(--app-bg);
+  padding-bottom: 80px; /* Space configuration for sticky bottom navigation bars on mobile */
+  transition: background 0.3s ease;
+}
+
+/* ---------- SIDEBAR (desktop only) ---------- */
+.comm-sidebar-desktop-wrapper {
+  display: none; /* hidden on mobile viewports */
+}
+
+/* ---------- MAIN CONTAINER ---------- */
+.comm-main-container {
+  padding: 16px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- TOP HEADER ---------- */
+.comm-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.comm-header-title-block h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.comm-header-title-block p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
+
+.comm-pill-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.comm-pill-back-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+/* ---------- ERROR & LOADING ---------- */
+.comm-error-notification {
+  background: var(--error-bg);
+  border-left: 4px solid var(--error-border);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  color: var(--error-text);
+  font-size: 0.95rem;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.comm-loading-placeholder-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 20px;
+}
+
+.comm-spinner-ring {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-green);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.comm-loading-placeholder-screen p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- HERO BANNER ---------- */
+.comm-hero-banner-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 28px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comm-hero-banner-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: var(--primary-glow);
+  filter: blur(80px);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: background 0.3s ease;
+}
+
+.comm-hero-left-content {
+  position: relative;
+  z-index: 1;
+}
+
+.comm-hero-label-sub {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.comm-hero-payout-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 8px 0 6px;
+  background: linear-gradient(135deg, var(--gradient-start) 60%, var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.comm-hero-badge-growth {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(22, 163, 74, 0.12);
+  padding: 4px 14px;
+  border-radius: 40px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--primary-green);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+:root[data-theme="light"] .comm-hero-badge-growth,
+body.light-theme .comm-hero-badge-growth {
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+.comm-hero-wallet-illustration {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: none; /* hidden on mobile layouts */
+}
+
+.comm-illust-glow-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: var(--primary-glow);
+  filter: blur(12px);
+  opacity: 0.6;
+  transition: background 0.3s ease;
+}
+
+.comm-illust-card-back {
+  position: absolute;
+  inset: 6px;
+  background: var(--card-hover);
+  border-radius: 16px;
+  transform: rotate(6deg);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.comm-illust-card-front {
+  position: absolute;
+  inset: 6px;
+  background: linear-gradient(145deg, #1a2a24, #0f1a14);
+  border-radius: 16px;
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 12px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Precise context alignment logic overrides for vector graphics illustrations inside the light layout matrix */
+:root[data-theme="light"] .comm-illust-card-front,
+body.light-theme .comm-illust-card-front {
+  background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+  border-color: rgba(22, 163, 74, 0.4);
+}
+:root[data-theme="light"] .comm-illust-card-back,
+body.light-theme .comm-illust-card-back {
+  background: #e2e8f0;
+}
+
+.comm-illust-chip {
+  width: 22px;
+  height: 14px;
+  background: var(--primary-green);
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
+.comm-illust-currency-symbol {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  align-self: flex-end;
+}
+
+/* ---------- STATS GRID ---------- */
+.comm-stats-grid-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+/* ---------- METRIC CARD ---------- */
+.comm-metric-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: var(--transition);
+  box-shadow: var(--card-shadow);
+}
+
+.comm-metric-card:hover {
+  background: var(--card-hover);
+  border-color: rgba(22, 163, 74, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.comm-metric-icon-box {
+  width: 44px;
+  height: 44px;
+  background: rgba(22, 163, 74, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+:root[data-theme="light"] .comm-metric-icon-box,
+body.light-theme .comm-metric-icon-box {
+  background: rgba(22, 163, 74, 0.06);
+}
+
+.comm-metric-icon-box svg {
+  color: var(--primary-green);
+}
+
+.comm-metric-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.comm-metric-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.comm-metric-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 2px 0 1px;
+}
+
+.comm-metric-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ---------- SPLIT DATA GRID ---------- */
+.comm-split-data-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+/* ---------- PANEL CARD ---------- */
+.comm-panel-card-box {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  box-shadow: var(--card-shadow);
+}
+
+.comm-panel-card-box:hover {
+  border-color: rgba(22, 163, 74, 0.2);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.comm-panel-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.comm-panel-card-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.comm-action-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary-green);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 20px;
+  transition: var(--transition);
+}
+
+.comm-action-link-btn:hover {
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.comm-chart-inline-indicator-badge {
+  background: rgba(22, 163, 74, 0.12);
+  padding: 2px 12px;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--primary-green);
+  border: 1px solid rgba(22, 163, 74, 0.15);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+:root[data-theme="light"] .comm-chart-inline-indicator-badge,
+body.light-theme .comm-chart-inline-indicator-badge {
+  background: rgba(22, 163, 74, 0.06);
+  border-color: rgba(22, 163, 74, 0.2);
+}
+
+/* ---------- LIST STACK ---------- */
+.comm-panel-list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.comm-empty-records-slate {
+  padding: 32px 12px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.comm-group-row-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.comm-group-row-item:hover {
+  background: var(--card-hover);
+  border-color: var(--border-color);
+}
+
+.comm-avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.12);
+  color: var(--primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+:root[data-theme="light"] .comm-avatar-circle,
+body.light-theme .comm-avatar-circle {
+  background: rgba(22, 163, 74, 0.07);
+}
+
+.comm-row-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.comm-row-details h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.comm-row-details span {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.comm-row-financials {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.comm-row-amount-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: block;
+  color: var(--text-primary);
+}
+
+.comm-row-percent-badge {
+  font-size: 0.65rem;
+  background: rgba(22, 163, 74, 0.08);
+  padding: 2px 8px;
+  border-radius: 20px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:root[data-theme="light"] .comm-row-percent-badge,
+body.light-theme .comm-row-percent-badge {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.comm-list-arrow-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity var(--transition), color var(--transition);
+}
+
+.comm-group-row-item:hover .comm-list-arrow-icon {
+  opacity: 1;
+  color: var(--primary-green);
+}
+
+/* ---------- PANEL FOOTER BTN ---------- */
+.comm-panel-footer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.comm-panel-footer-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+/* ---------- CHART CONTAINER ---------- */
+.comm-recharts-container-frame {
+  width: 100%;
+  height: 280px;
+  margin: 8px 0 4px;
+}
+
+/* Recharts floating tooltip layout configuration updates */
+.comm-recharts-container-frame .recharts-tooltip-wrapper {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  box-shadow: var(--card-shadow);
+}
+
+.comm-chart-aggregate-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.comm-chart-aggregate-footer span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.comm-chart-aggregate-footer h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---------- CTA BANNER ---------- */
+.comm-cta-banner-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  margin-top: 8px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comm-cta-icon-decorator {
+  width: 48px;
+  height: 48px;
+  background: rgba(22, 163, 74, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+:root[data-theme="light"] .comm-cta-icon-decorator,
+body.light-theme .comm-cta-icon-decorator {
+  background: rgba(22, 163, 74, 0.05);
+}
+
+.comm-cta-icon-decorator svg {
+  color: var(--primary-green);
+}
+
+.comm-cta-text-block {
+  flex: 1;
+  min-width: 140px;
+}
+
+.comm-cta-text-block h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text-primary);
+}
+
+.comm-cta-text-block p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.comm-cta-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-green);
+  border: none;
+  border-radius: 40px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+}
+
+.comm-cta-trigger-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 24px rgba(22, 163, 74, 0.45);
+}
+
+/* ---------- BOTTOM NAV (mobile only) ---------- */
+.comm-bottom-nav-mobile-wrapper {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* ---------- RESPONSIVE LAYOUT OVERRIDES ---------- */
+
+/* Tablet and desktop layouts (Breakpoint 768px+) */
+@media (min-width: 768px) {
+  .comm-dashboard-root {
+    grid-template-columns: 260px 1fr;
+    padding-bottom: 0;
+  }
+
+  .comm-sidebar-desktop-wrapper {
+    display: block;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+  }
+
+  .comm-main-container {
+    padding: 32px 36px 40px;
+  }
+
+  .comm-bottom-nav-mobile-wrapper {
+    display: none;
+  }
+
+  .comm-hero-wallet-illustration {
+    display: block;
+    width: 100px;
+    height: 100px;
+  }
+
+  .comm-hero-payout-display {
+    font-size: 3.2rem;
+  }
+
+  .comm-stats-grid-row {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .comm-split-data-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .comm-panel-card-box {
+    padding: 24px;
+  }
+
+  .comm-recharts-container-frame {
+    height: 300px;
+  }
+
+  .comm-cta-banner-card {
+    padding: 24px 32px;
+  }
+}
+
+/* Large desktop system structural optimization */
+@media (min-width: 1200px) {
+  .comm-main-container {
+    padding: 40px 48px 48px;
+  }
+
+  .comm-hero-banner-card {
+    padding: 32px 40px;
+  }
+
+  .comm-stats-grid-row {
+    gap: 24px;
+  }
+
+  .comm-split-data-grid {
+    gap: 32px;
+  }
+}

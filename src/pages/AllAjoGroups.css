@@ -1,0 +1,381 @@
+/* ── All Ajo Groups Page ───────────────────────────────────────────────────── */
+
+/* ── Root Layout ───────────────────────────────────────────────────────────── */
+.all-ajo-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f9fafb;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.all-ajo-header {
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.back-btn {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.back-btn:hover {
+  background: #e5e7eb;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.header-spacer {
+  width: 40px;
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #111827;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.search-input::placeholder {
+  color: #d1d5db;
+}
+
+/* ── Main Content ──────────────────────────────────────────────────────────── */
+.all-ajo-main {
+  padding: 28px;
+  flex: 1;
+}
+
+.groups-panel {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  border: 1px solid #f0f0f0;
+}
+
+.panel-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.group-count {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ── Ajo List ──────────────────────────────────────────────────────────────── */
+.ajo-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Progress Bar ──────────────────────────────────────────────────────────── */
+.progress-track {
+  background: #e5e7eb;
+  border-radius: 99px;
+  height: 5px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+/* ── Ajo Row ───────────────────────────────────────────────────────────────── */
+.ajo-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.18s;
+  cursor: pointer;
+}
+
+.ajo-row:last-child {
+  border-bottom: none;
+}
+
+.ajo-row:hover {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px 12px;
+  margin: 0 -12px;
+}
+
+.ajo-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ajo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ajo-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #111827;
+}
+
+.ajo-meta {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+.ajo-cycle {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ajo-cycle-weeks {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ajo-cycle-percent {
+  font-size: 14px;
+  font-weight: 700;
+  color: #16a34a;
+  margin-top: 2px;
+}
+
+.ajo-arrow {
+  color: #d1d5db;
+  flex-shrink: 0;
+}
+
+/* ── Loading State ─────────────────────────────────────────────────────────── */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+}
+
+.spinner {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.spinner-ring {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 2.5px solid #f0fdf4;
+  border-radius: 50%;
+  border-top-color: #16a34a;
+  border-right-color: #22c55e;
+  animation: spin 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ── Empty State ───────────────────────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+}
+
+.empty-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #f0fdf4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #9ca3af;
+  text-align: center;
+  max-width: 300px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .all-ajo-header {
+    padding: 14px 16px;
+  }
+
+  .header-top {
+    margin-bottom: 12px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .all-ajo-main {
+    padding: 16px;
+  }
+
+  .groups-panel {
+    padding: 16px;
+  }
+
+  .ajo-row {
+    gap: 10px;
+  }
+
+  .ajo-icon-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ajo-name {
+    font-size: 14px;
+  }
+
+  .ajo-meta {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .all-ajo-header {
+    padding: 12px;
+  }
+
+  .header-top {
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  .back-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-spacer {
+    width: 36px;
+  }
+
+  .search-container {
+    padding: 8px 12px;
+  }
+
+  .search-input {
+    font-size: 13px;
+  }
+
+  .all-ajo-main {
+    padding: 12px;
+  }
+
+  .groups-panel {
+    padding: 14px;
+  }
+
+  .ajo-row {
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .ajo-row:hover {
+    padding: 12px 8px;
+    margin: 0 -8px;
+  }
+
+  .ajo-icon-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .ajo-name {
+    font-size: 13px;
+  }
+
+  .ajo-meta {
+    font-size: 11px;
+  }
+
+  .ajo-cycle-weeks {
+    font-size: 11px;
+  }
+
+  .ajo-cycle-percent {
+    font-size: 13px;
+  }
+}

@@ -38,6 +38,10 @@
   padding: 0 24px;
 }
 
+.pocket {
+  color: #16a34a;
+}
+
 /* === Buttons === */
 .btn {
   display: inline-flex;

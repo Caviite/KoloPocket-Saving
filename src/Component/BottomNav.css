@@ -1,0 +1,70 @@
+/* ── Bottom Nav (mobile only) ──────────────────────────────────────────────── */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    padding: 10px 0 14px;
+    z-index: 200;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+/* ── Nav Item ──────────────────────────────────────────────────────────────── */
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #9ca3af;
+  font-family: 'DM Sans', sans-serif;
+  transition: color 0.18s;
+}
+
+.bottom-nav-item span {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.bottom-nav-item.active {
+  color: #16a34a;
+}
+
+.bottom-nav-item.active span {
+  font-weight: 600;
+}
+
+/* ── Center FAB ────────────────────────────────────────────────────────────── */
+.bottom-nav-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #16a34a;
+  border: none;
+  cursor: pointer;
+  padding: 14px;
+  border-radius: 50%;
+  margin-top: -24px;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4);
+  transition: background 0.18s;
+}
+
+.bottom-nav-center:hover {
+  background: #15803d;
+}

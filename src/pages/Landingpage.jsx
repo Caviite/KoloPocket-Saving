@@ -39,52 +39,52 @@ const itemVariants = {
 const steps = [
   {
     number: '1',
-    title: 'Create a savings plan',
+    title: 'Create or join a savings group',
     description:
-      'Set your goal, target amount, and timeline. Customize it to fit your unique lifestyle and needs.',
+      'Start a group with your community or join an existing one. Define your cycle (daily, weekly, or monthly) and contribution amount.',
     icon: Target,
   },
   {
     number: '2',
-    title: 'Deposit money gradually',
+    title: 'Contribute regularly',
     description:
-      'Add funds manually or set up auto-save to build your balance steadily without feeling the pinch.',
+      'Members contribute their fixed amount on schedule. Track every payment transparently with digital records—no disputes, no confusion.',
     icon: ArrowDownToLine,
   },
   {
     number: '3',
-    title: 'Withdraw when complete',
+    title: 'Receive automatic payouts',
     description:
-      'Stay disciplined. Funds unlock only when you hit your goal, ensuring you actually reach it.',
-    icon: Lock,
+      'At the end of each cycle, everyone receives their share automatically. The group organizer gets a fair commission for managing the group.',
+    icon: CheckCircle2,
   },
 ]
 
 const features = [
   {
-    title: 'Flexible Savings',
+    title: 'Group Savings Made Easy',
     description:
-      'Save at your own pace with customizable plans that fit your lifestyle. Pause or adjust anytime.',
+      'Create groups with family, friends, or colleagues. Everyone contributes together toward a shared savings goal with perfect transparency.',
     icon: SlidersHorizontal,
   },
   {
-    title: 'Secure Withdrawals',
+    title: 'Automatic Payouts',
     description:
-      'Withdraw only when your goal is complete, ensuring disciplined savings and preventing impulse spending.',
+      'No manual calculations or delays. When the cycle ends, funds are distributed automatically to all members fairly and instantly.',
     icon: ShieldCheck,
   },
   {
-    title: 'Progress Tracking',
+    title: 'Complete Transparency',
     description:
-      'Visualize your savings journey with beautiful charts and stay motivated every step of the way.',
+      'Every contribution is recorded digitally. Members can track payments, progress, and payouts in real-time. Build trust through visibility.',
     icon: LineChart,
   },
 ]
 
 const stats = [
-  { value: '$2M+', label: 'Saved by users' },
-  { value: '50k+', label: 'Active savers' },
-  { value: '4.9/5', label: 'App store rating' },
+  { value: '₦500M+', label: 'Saved collectively' },
+  { value: '100k+', label: 'Active savers' },
+  { value: '50k+', label: 'Groups created' },
 ]
 
 
@@ -159,19 +159,19 @@ function Hero() {
           >
             <motion.div variants={itemVariants} className="hero-badge">
               <span className="hero-badge-dot" />
-              The smart way to save
+              The smart way to save together
             </motion.div>
 
             <motion.h1 variants={itemVariants} className="hero-title">
-              Save with purpose.
+              Save together.
               <br />
-              <span className="accent">Spend with confidence.</span>
+              <span className="accent">Grow your wealth with community.</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="hero-subtitle">
-              Create customizable savings plans, deposit at your own pace, and
-              withdraw only when your goal is complete. Build discipline
-              effortlessly.
+              Join or create savings groups with your community. Contribute regularly,
+              track progress transparently, and receive automatic payouts at cycle end.
+              The smart way to save together.
             </motion.p>
 
             <motion.div variants={itemVariants} className="hero-ctas">
@@ -206,35 +206,35 @@ function Hero() {
                     <Target size={22} />
                   </div>
                   <div>
-                    <h3 className="mockup-goal-title">New MacBook Pro</h3>
-                    <p className="mockup-goal-cat">Tech Gadgets</p>
+                    <h3 className="mockup-goal-title">Market Traders Group</h3>
+                    <p className="mockup-goal-cat">Daily Savings</p>
                   </div>
                 </div>
-                <span className="mockup-pill">On track</span>
+                <span className="mockup-pill">Active</span>
               </div>
 
               <div className="mockup-progress-head">
-                <h2 className="mockup-amount">$1,450</h2>
-                <span className="mockup-target">of $2,000</span>
+                <h2 className="mockup-amount">₦375,000</h2>
+                <span className="mockup-target">of ₦500,000</span>
               </div>
 
               <div className="mockup-progress-track">
                 <motion.div
                   className="mockup-progress-fill"
                   initial={{ width: 0 }}
-                  animate={{ width: '72.5%' }}
+                  animate={{ width: '75%' }}
                   transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
                 />
               </div>
 
               <div className="mockup-stats">
                 <div className="mockup-stat">
-                  <p className="mockup-stat-label">Monthly Auto-save</p>
-                  <p className="mockup-stat-value">$250.00</p>
+                  <p className="mockup-stat-label">Per member daily</p>
+                  <p className="mockup-stat-value">₦500.00</p>
                 </div>
                 <div className="mockup-stat">
-                  <p className="mockup-stat-label">Time remaining</p>
-                  <p className="mockup-stat-value">2 Months</p>
+                  <p className="mockup-stat-label">Days remaining</p>
+                  <p className="mockup-stat-value">15 Days</p>
                 </div>
               </div>
             </div>
@@ -242,14 +242,14 @@ function Hero() {
             <motion.div
               className="floater floater-top"
               animate={{ y: [-10, 10, -10] }}
-              transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
             >
-              <div className="floater-icon green">
+              <div className="floater-icon">
                 <TrendingUp size={18} />
               </div>
               <div>
-                <p className="floater-label">Interest Earned</p>
-                <p className="floater-value">+$42.50</p>
+                <p className="floater-label">Group Growing</p>
+                <p className="floater-value">+₦7,500</p>
               </div>
             </motion.div>
 
@@ -262,8 +262,8 @@ function Hero() {
                 <CheckCircle2 size={18} />
               </div>
               <div>
-                <p className="floater-label">Deposit Success</p>
-                <p className="floater-value">+$250.00</p>
+                <p className="floater-label">Payment Confirmed</p>
+                <p className="floater-value">+₦500.00</p>
               </div>
             </motion.div>
           </motion.div>
@@ -301,10 +301,10 @@ function HowItWorks() {
     <section id="how-it-works" className="section section-alt">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-title">How Kolopocket works</h2>
+          <h2 className="section-title">How <span className="pocket">KoloPocket</span> works</h2>
           <p className="section-subtitle">
-            Three simple steps to build better financial habits and reach your
-            goals faster.
+            Three simple steps to create a savings group, manage contributions,
+            and receive automatic payouts with complete transparency.
           </p>
         </div>
 
@@ -341,10 +341,10 @@ function Features() {
     <section id="features" className="section">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-title">Everything you need to save smarter</h2>
+          <h2 className="section-title">Everything you need to save together</h2>
           <p className="section-subtitle">
-            Powerful features designed to help you build wealth and achieve your
-            financial targets.
+            Powerful features designed to make group savings transparent,
+            secure, and hassle-free for everyone.
           </p>
         </div>
 
@@ -399,13 +399,13 @@ function CTASection() {
           </svg>
 
           <div className="cta-inner">
-            <h2 className="cta-title">Ready to hit your savings goals?</h2>
+            <h2 className="cta-title">Ready to start saving with your community?</h2>
             <p className="cta-subtitle">
-              Join thousands of users who are building better financial habits
-              with Kolopocket today.
+              Join thousands of Nigerians who are building wealth together
+              with transparent, secure group savings through KoloPocket.
             </p>
             <button className="cta-button" onClick={() => navigate('./auth')}>
-              Create your first plan
+              Create your first group
               <ArrowRight size={20} />
             </button>
           </div>
@@ -427,8 +427,8 @@ function Footer() {
               </div>
             </div>
             <p className="footer-tagline">
-              The smart savings app that helps you build discipline, track
-              progress, and achieve your financial goals.
+              The smart savings app that brings transparency, security, and
+              automation to group savings. Save together, grow together.
             </p>
 
           </div>
@@ -462,7 +462,7 @@ function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Kolopocket Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} KoloPocket Inc. All rights reserved.</p>
           <span>Made with ❤️ for savers</span>
         </div>
       </div>
@@ -487,4 +487,3 @@ function Landingpage() {
 }
 
 export default Landingpage
-

@@ -1,0 +1,354 @@
+/* ContributorsPage.css */
+
+/* ─── Reset / Base ──────────────────────────────────────────────────────── */
+.contributors-page {
+    padding: 2rem 1.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: 70vh;
+    background-color: #ffffff;
+    /* 🌟 FIX: Full clean white background instead of slate-gray */
+    color: #1e293b;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ─── Typography Helpers ────────────────────────────────────────────────── */
+.text-secondary {
+    color: #6b7280;
+    transition: color 0.25s ease;
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+.contributors-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.75rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: #1e293b;
+}
+
+/* ─── Search Bar ────────────────────────────────────────────────────────── */
+.search-bar-wrapper {
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+}
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.7rem;
+    font-size: 0.95rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    /* Subtle inner fill */
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    border-color: #16a34a;
+    /* 🌟 FIX: KoloPocket theme green on focus */
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    background-color: #ffffff;
+}
+
+.search-clear {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 50%;
+}
+
+.search-clear:hover {
+    color: #64748b;
+    background-color: #f1f5f9;
+}
+
+.search-status {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ─── Cards Grid ────────────────────────────────────────────────────────── */
+.contributors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.contributor-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    /* 🌟 FIX: Removed box-shadow containers so the card looks flat and crisp */
+    box-shadow: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contributor-card:hover {
+    border-color: #16a34a;
+    /* 🌟 FIX: Glow green on card hover */
+    transform: translateY(-2px);
+}
+
+/* Avatar Component */
+.card-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+    user-select: none;
+}
+
+/* Card Body */
+.card-body {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.card-name {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem 0;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-email {
+    font-size: 0.9rem;
+    margin: 0;
+    word-break: break-all;
+}
+
+/* Card Action Button */
+.card-action {
+    width: 100%;
+    margin-top: auto;
+}
+
+.action-button {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    border: 1px solid #16a34a;
+    /* 🌟 FIX: Styled to match KoloPocket Green outline */
+    background: transparent;
+    color: #16a34a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-button:hover {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.action-icon {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.action-button:hover .action-icon {
+    transform: translateX(3px);
+}
+
+/* ─── State Layouts (Empty, Loading, Error) ───────────────────────────── */
+.contributors-loading,
+.contributors-error,
+.contributors-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    text-align: center;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.spinner-icon {
+    font-size: 2.5rem;
+    color: #16a34a;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+.error-icon {
+    font-size: 2.5rem;
+    color: #ef4444;
+    margin-bottom: 1rem;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    color: #cbd5e1;
+    margin-bottom: 1.25rem;
+}
+
+.contributors-error h3,
+.contributors-empty h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+/* Action Utility Buttons */
+.retry-button,
+.primary-button {
+    margin-top: 1.5rem;
+    padding: 0.65rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s ease;
+}
+
+.primary-button {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.primary-button:hover {
+    background: #15803d;
+}
+
+.retry-button {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.retry-button:hover {
+    background: #e2e8f0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─── DARK THEME OVERRIDES ───────────────────────────────────────────────── */
+[data-theme="dark"] {
+
+    /* 🌟 FIX: Main obsidian space */
+    &.contributors-page,
+    .contributors-page {
+        background-color: #0B0F19;
+        color: #ffffff;
+        /* 🌟 FIX: All generic texts switch cleanly to crisp white */
+    }
+
+    .page-title {
+        color: #ffffff;
+        /* 🌟 FIX: Title text turns white */
+    }
+
+    .text-secondary {
+        color: #94a3b8;
+        /* Highly visible slate gray for descriptions */
+    }
+
+    /* Input Blocks */
+    .search-input {
+        background-color: #111827;
+        border-color: #1f2937;
+        color: #ffffff;
+        /* 🌟 FIX: Typed text turns white */
+    }
+
+    .search-input:focus {
+        border-color: #16a34a;
+        background-color: #111827;
+    }
+
+    /* Cards - 🌟 FIX: Removed box-shadow containers completely */
+    .contributor-card {
+        background: #111827;
+        border: 1px solid #1f2937;
+        box-shadow: none;
+    }
+
+    .contributor-card:hover {
+        border-color: #16a34a;
+    }
+
+    .card-name {
+        color: #ffffff;
+        /* 🌟 FIX: Contributor card name string changes to white */
+    }
+
+    .action-button {
+        border-color: #16a34a;
+        color: #16a34a;
+        background: transparent;
+    }
+
+    .action-button:hover {
+        background: #16a34a;
+        color: #ffffff;
+    }
+
+    .retry-button {
+        background: #1f2937;
+        color: #f1f5f9;
+    }
+
+    .retry-button:hover {
+        background: #374151;
+    }
+}
