@@ -17,6 +17,7 @@ import {
   LineChart,
 } from 'lucide-react'
 
+import InstallButton from '../Component/InstallButton'
 import './Landingpage.css'
 
 import { nav } from 'framer-motion/client'
@@ -179,6 +180,7 @@ function Hero() {
                 Start saving now
                 <ArrowRight size={18} />
               </button>
+              <InstallButton />
             </motion.div>
 
             <motion.div variants={itemVariants} className="hero-trust">

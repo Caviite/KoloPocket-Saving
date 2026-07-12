@@ -35,7 +35,7 @@ export default function BottomNav() {
       {/* Center FAB — Create Ajo Group */}
       <button
         className="bottom-nav-center"
-        onClick={() => navigate("/dashboard/alajo/groups/create")}
+        onClick={() => navigate("/creategroup")}
         aria-label="Create Ajo Group"
       >
         <Icon name="plus" size={22} color="#fff" />

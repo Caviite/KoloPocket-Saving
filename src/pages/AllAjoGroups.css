@@ -43,6 +43,13 @@
   background: #e5e7eb;
 }
 
+@media (max-width: 640px) {
+  .all-ajo-header .back-btn {
+    display: none;
+  }
+}
+
+
 .header-title {
   font-size: 24px;
   font-weight: 700;
@@ -272,6 +279,10 @@
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .back-btn {
+    display: none;
+  }
+
   .all-ajo-header {
     padding: 14px 16px;
   }
@@ -311,6 +322,11 @@
 }
 
 @media (max-width: 480px) {
+
+  .back-btn {
+    display: none;
+  }
+
   .all-ajo-header {
     padding: 12px;
   }

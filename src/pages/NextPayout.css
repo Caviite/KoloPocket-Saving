@@ -43,6 +43,12 @@
   text-transform: capitalize;
 }
 
+@media (max-width: 640px) {
+  .next-payout-container .back-btn {
+    display: none;
+  }
+}
+
 .back-btn:hover {
   background: #16a34a;
   color: #ffffff;

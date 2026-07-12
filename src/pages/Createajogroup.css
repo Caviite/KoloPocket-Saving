@@ -77,6 +77,18 @@
 }
 
 @media (max-width: 480px) {
+  .cg-page-header {
+    justify-content: center;
+    position: relative;
+  }
+
+  .cg-back-btn {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   .cg-page-header div[style*="width: 80"] {
     display: none !important;
   }

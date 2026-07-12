@@ -3,6 +3,7 @@ import { authContext } from "../Context/authcontext";
 import { useNavigate } from "react-router-dom";
 import { privateInstance } from "../api/api";
 import "./AllAjoGroups.css";
+import BottomNav from "../Component/BottomNav";
 
 // ── Icons (inline SVG) ───────────────────────────────────────────────────────
 const Icon = ({ name, size = 20, color = "currentColor" }) => {
@@ -137,6 +138,7 @@ export default function AllAjoGroups() {
         <div className="header-top">
           <button className="back-btn" onClick={() => navigate("/dashboard")}>
             <Icon name="arrowLeft" size={20} color="#6b7280" />
+            Back
           </button>
           <h1 className="header-title">All Active Ajo Groups</h1>
           <div className="header-spacer" />
@@ -191,6 +193,7 @@ export default function AllAjoGroups() {
           )}
         </div>
       </main>
+      <BottomNav activeNav="ajo" />
     </div>
   );
 }
