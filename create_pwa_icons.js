@@ -1,5 +1,5 @@
-const fs = require('fs');
-const zlib = require('zlib');
+import fs from 'fs';
+import zlib from 'zlib';
 
 function crc32(buf) {
   const table = Array.from({ length: 256 }, (_, i) => {
@@ -58,6 +58,20 @@ function createPng(path, width, height, rgba) {
 }
 
 if (!fs.existsSync('public')) fs.mkdirSync('public');
-createPng('public/pwa-192x192.png', 192, 192, [22, 163, 74, 255]);
-createPng('public/pwa-512x512.png', 512, 512, [22, 163, 74, 255]);
-console.log('Created placeholder PWA icons');
+const logoPath = 'src/pages/KoloPocket_LOGO-removebg-preview.png';
+if (fs.existsSync(logoPath)) {
+  try {
+    fs.copyFileSync(logoPath, 'public/pwa-192x192.png');
+    fs.copyFileSync(logoPath, 'public/pwa-512x512.png');
+    console.log('Copied KoloPocket logo into public PWA icons');
+  } catch (err) {
+    console.error('Failed to copy logo, falling back to placeholders:', err);
+    createPng('public/pwa-192x192.png', 192, 192, [22, 163, 74, 255]);
+    createPng('public/pwa-512x512.png', 512, 512, [22, 163, 74, 255]);
+    console.log('Created placeholder PWA icons');
+  }
+} else {
+  createPng('public/pwa-192x192.png', 192, 192, [22, 163, 74, 255]);
+  createPng('public/pwa-512x512.png', 512, 512, [22, 163, 74, 255]);
+  console.log('Created placeholder PWA icons');
+}
