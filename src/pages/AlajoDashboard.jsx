@@ -126,7 +126,15 @@ const NavItem = ({ icon, label, active, onClick }) => (
   </button>
 );
 
-const StatCard = ({ icon, label, value, sub }) => (
+const ThreeDotLoader = ({ label = "Loading" }) => (
+  <div className="alajo-three-dot-loader" role="status" aria-live="polite" aria-label={label}>
+    <span />
+    <span />
+    <span />
+  </div>
+);
+
+const StatCard = ({ icon, label, value, sub, isLoading = false }) => (
   <div className="stat-card">
     <div className="stat-card-header">
       <div className="stat-icon-wrap">
@@ -134,8 +142,16 @@ const StatCard = ({ icon, label, value, sub }) => (
       </div>
       <span className="stat-label">{label}</span>
     </div>
-    <div className="stat-value">{value}</div>
-    {sub && <button className="stat-link-btn">{sub}</button>}
+    {isLoading ? (
+      <div className="stat-loader">
+        <ThreeDotLoader label={`Loading ${label}`} />
+      </div>
+    ) : (
+      <>
+        <div className="stat-value">{value}</div>
+        {sub && <button className="stat-link-btn">{sub}</button>}
+      </>
+    )}
   </div>
 );
 
@@ -454,19 +470,21 @@ export default function AlajoDashboard() {
           </div>
 
           <div className="stats-grid">
-            <StatCard icon="ajo" label="Active Ajo" value={stats.activeAjo} sub="View all" />
-            <StatCard icon="check" label="Completed Ajo" value={stats.completedAjo} sub="View all" />
+            <StatCard icon="ajo" label="Active Ajo" value={stats.activeAjo} sub="View all" isLoading={loading} />
+            <StatCard icon="check" label="Completed Ajo" value={stats.completedAjo} sub="View all" isLoading={loading} />
             <StatCard
               icon="chart"
               label="Total Contributions"
               value={`₦${stats.totalContributions.toLocaleString("en-NG", { minimumFractionDigits: 2 })}`}
               sub="View details"
+              isLoading={loading}
             />
             <StatCard
               icon="wallet"
               label="Total Payouts"
               value={`₦${stats.totalPayouts.toLocaleString("en-NG", { minimumFractionDigits: 2 })}`}
               sub="View details"
+              isLoading={loading}
             />
           </div>
 
@@ -494,7 +512,11 @@ export default function AlajoDashboard() {
                   <button className="panel-view-all" onClick={() => navigate("/transaction") }>View all</button>
                 )}
               </div>
-              {transactions.length === 0 ? (
+              {loading ? (
+                <div className="panel-loader-block">
+                  <ThreeDotLoader label="Loading contributions" />
+                </div>
+              ) : transactions.length === 0 ? (
                 <EmptyState icon="transactions" message="No collection logs recorded yet." />
               ) : (
                 transactions.slice(0, 5).map((tx, i) => <TxRow key={i} {...tx} />)
@@ -507,7 +529,11 @@ export default function AlajoDashboard() {
               <div className="panel-header">
                 <span className="panel-title">Recent Distributed Payouts</span>
               </div>
-              {payoutTransactions.length === 0 ? (
+              {loading ? (
+                <div className="panel-loader-block">
+                  <ThreeDotLoader label="Loading payouts" />
+                </div>
+              ) : payoutTransactions.length === 0 ? (
                 <EmptyState icon="wallet" message="No distribution payouts processed from this portal yet." />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

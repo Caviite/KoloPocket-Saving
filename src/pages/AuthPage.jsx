@@ -167,7 +167,7 @@ function AuthPage() {
         <div className="form-panel sign-in-panel">
           <form className="auth-form" onSubmit={handleSubmitSignin}>
             <h2>Sign In</h2>
-            <div>
+            <div className="google-btn-wrapper">
               <GoogleLogin
                 className="social-login"
                 onSuccess={(cred) => handleGoogleSuccess(cred, 'signin')}
@@ -178,6 +178,11 @@ function AuthPage() {
                 auto_select
                 cancel_on_tap_outside={false}
               />
+              {googleLoadingSignin && (
+                <div className="google-btn-loading-overlay">
+                  <span className="google-btn-spinner" />
+                </div>
+              )}
             </div>
             <input
               type="email"

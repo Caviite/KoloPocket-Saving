@@ -24,15 +24,31 @@ import Sidebar from "../Component/Sidebar";
 import BottomNav from "../Component/BottomNav";
 import "./Commission.css";
 
-const MetricCard = ({ icon: IconComponent, title, value, label }) => (
+const ThreeDotLoader = ({ label = "Loading" }) => (
+  <div className="comm-three-dot-loader" role="status" aria-live="polite" aria-label={label}>
+    <span />
+    <span />
+    <span />
+  </div>
+);
+
+const MetricCard = ({ icon: IconComponent, title, value, label, isLoading = false }) => (
   <div className="comm-metric-card">
     <div className="comm-metric-icon-box">
       <IconComponent size={20} color="#16a34a" />
     </div>
     <div className="comm-metric-content">
       <span className="comm-metric-title">{title}</span>
-      <h3 className="comm-metric-value">{value}</h3>
-      <span className="comm-metric-label">{label}</span>
+      {isLoading ? (
+        <div className="comm-metric-loader-wrap">
+          <ThreeDotLoader label={`Loading ${title}`} />
+        </div>
+      ) : (
+        <>
+          <h3 className="comm-metric-value">{value}</h3>
+          <span className="comm-metric-label">{label}</span>
+        </>
+      )}
     </div>
   </div>
 );
@@ -127,100 +143,113 @@ export default function CommissionDashboard() {
           </div>
         )}
 
-        {loading ? (
-          <div className="comm-loading-placeholder-screen">
-            <div className="comm-spinner-ring"></div>
-            <p>Fetching active revenue pipelines...</p>
-          </div>
-        ) : (
-          <>
-            {/* Main Stats Card Section */}
-            <section className="comm-hero-banner-card">
-              <div className="comm-hero-left-content">
-                <span className="comm-hero-label-sub">Total Commission Earned</span>
-                <h1 className="comm-hero-payout-display">₦{totalEarnings.toLocaleString()}</h1>
-                <div className="comm-hero-badge-growth">
-                  <TrendingUp size={14} color="#16a34a" />
-                  <span>Dynamic platform yields active</span>
+        <>
+          {/* Main Stats Card Section */}
+          <section className="comm-hero-banner-card">
+            <div className="comm-hero-left-content">
+              <span className="comm-hero-label-sub">Total Commission Earned</span>
+              {loading ? (
+                <div className="comm-hero-loading-state">
+                  <ThreeDotLoader label="Loading commission totals" />
                 </div>
+              ) : (
+                <>
+                  <h1 className="comm-hero-payout-display">₦{totalEarnings.toLocaleString()}</h1>
+                  <div className="comm-hero-badge-growth">
+                    <TrendingUp size={14} color="#16a34a" />
+                    <span>Dynamic platform yields active</span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="comm-hero-wallet-illustration">
+              <div className="comm-illust-glow-ring"></div>
+              <div className="comm-illust-card-back"></div>
+              <div className="comm-illust-card-front">
+                <span className="comm-illust-chip"></span>
+                <div className="comm-illust-currency-symbol">₦</div>
+              </div>
+            </div>
+          </section>
+
+          {/* Platform Metrics Data Row */}
+          <section className="comm-stats-grid-row">
+            <MetricCard icon={Users} title="Groups Active" value={stats.activeGroups} label="Active savings pools" isLoading={loading} />
+            <MetricCard icon={Percent} title="Flat Fee Target" value={stats.flatFeeBaseline} label="Combined active base layout fees" isLoading={loading} />
+            <MetricCard icon={Coins} title="Total Collected" value={stats.totalCollected} label="Total processed contributions" isLoading={loading} />
+            <MetricCard icon={ArrowUpRight} title="Payouts Distributed" value={stats.payoutsDistributed} label="Disbursed group balances" isLoading={loading} />
+          </section>
+
+          {/* Content Split Column System */}
+          <div className="comm-split-data-grid">
+
+            {/* Dynamic Commission By Group Panel Content */}
+            <div className="comm-panel-card-box">
+              <div className="comm-panel-card-header">
+                <h3>Commission by Group</h3>
+                <button className="comm-action-link-btn" onClick={() => navigate("/all-ajo-groups")}>View All</button>
               </div>
 
-              <div className="comm-hero-wallet-illustration">
-                <div className="comm-illust-glow-ring"></div>
-                <div className="comm-illust-card-back"></div>
-                <div className="comm-illust-card-front">
-                  <span className="comm-illust-chip"></span>
-                  <div className="comm-illust-currency-symbol">₦</div>
-                </div>
-              </div>
-            </section>
-
-            {/* Platform Metrics Data Row */}
-            <section className="comm-stats-grid-row">
-              <MetricCard icon={Users} title="Groups Active" value={stats.activeGroups} label="Active savings pools" />
-              {/* CHANGED THIS CARD: Displaying total combined base layout flat fees instead of percentages */}
-              <MetricCard icon={Percent} title="Flat Fee Target" value={stats.flatFeeBaseline} label="Combined active base layout fees" />
-              <MetricCard icon={Coins} title="Total Collected" value={stats.totalCollected} label="Total processed contributions" />
-              <MetricCard icon={ArrowUpRight} title="Payouts Distributed" value={stats.payoutsDistributed} label="Disbursed group balances" />
-            </section>
-
-            {/* Content Split Column System */}
-            <div className="comm-split-data-grid">
-
-              {/* Dynamic Commission By Group Panel Content */}
-              <div className="comm-panel-card-box">
-                <div className="comm-panel-card-header">
-                  <h3>Commission by Group</h3>
-                  <button className="comm-action-link-btn" onClick={() => navigate("/all-ajo-groups")}>View All</button>
-                </div>
-
-                <div className="comm-panel-list-stack">
-                  {commissionsList.length === 0 ? (
-                    <div className="comm-empty-records-slate">
-                      <p>No Ajo savings group distributions recorded yet on this account.</p>
+              <div className="comm-panel-list-stack">
+                {loading ? (
+                  <>
+                    <div className="comm-panel-loading-row">
+                      <ThreeDotLoader label="Loading groups" />
                     </div>
-                  ) : (
-                    commissionsList.map((comm) => {
-                      const groupInfo = comm.groupId || {};
-                      const nameString = groupInfo.name || "Unnamed Group";
-                      const initials = nameString.substring(0, 2).toUpperCase();
+                    <div className="comm-panel-loading-row">
+                      <ThreeDotLoader label="Loading groups" />
+                    </div>
+                  </>
+                ) : commissionsList.length === 0 ? (
+                  <div className="comm-empty-records-slate">
+                    <p>No Ajo savings group distributions recorded yet on this account.</p>
+                  </div>
+                ) : (
+                  commissionsList.map((comm) => {
+                    const groupInfo = comm.groupId || {};
+                    const nameString = groupInfo.name || "Unnamed Group";
+                    const initials = nameString.substring(0, 2).toUpperCase();
 
-                      return (
-                        <div key={comm._id} className="comm-group-row-item" onClick={() => navigate(`/all-ajo-groups`)}>
-                          <div className="comm-avatar-circle">
-                            {initials}
-                          </div>
-                          <div className="comm-row-details">
-                            <h4>{nameString}</h4>
-                            <span>{groupInfo.cycleType || "Flexible"} Cycle</span>
-                          </div>
-                          <div className="comm-row-financials">
-                            {/* Cumulative revenue pocketed from this group so far */}
-                            <span className="comm-row-amount-label">₦{(comm.totalCommissionEarned || 0).toLocaleString()}</span>
-                            {/* CHANGED THIS BADGE: Shows the flat collection fee rule specified during group creation */}
-                            <span className="comm-row-percent-badge">₦{(comm.commissionAmount || 0).toLocaleString()} fee</span>
-                          </div>
-                          <ChevronRight size={16} className="comm-list-arrow-icon" />
+                    return (
+                      <div key={comm._id} className="comm-group-row-item" onClick={() => navigate(`/all-ajo-groups`)}>
+                        <div className="comm-avatar-circle">
+                          {initials}
                         </div>
-                      );
-                    })
-                  )}
-                </div>
-
-                <button className="comm-panel-footer-btn" onClick={() => navigate("/all-ajo-groups")}>
-                  <Percent size={14} color="#16a34a" />
-                  <span>View All Groups</span>
-                </button>
+                        <div className="comm-row-details">
+                          <h4>{nameString}</h4>
+                          <span>{groupInfo.cycleType || "Flexible"} Cycle</span>
+                        </div>
+                        <div className="comm-row-financials">
+                          <span className="comm-row-amount-label">₦{(comm.totalCommissionEarned || 0).toLocaleString()}</span>
+                          <span className="comm-row-percent-badge">₦{(comm.commissionAmount || 0).toLocaleString()} fee</span>
+                        </div>
+                        <ChevronRight size={16} className="comm-list-arrow-icon" />
+                      </div>
+                    );
+                  })
+                )}
               </div>
 
-              {/* Chart Visualization Dynamic Rendering */}
-              <div className="comm-panel-card-box">
-                <div className="comm-panel-card-header">
-                  <h3>Commission Trends</h3>
-                  <span className="comm-chart-inline-indicator-badge">Live Metrics</span>
-                </div>
+              <button className="comm-panel-footer-btn" onClick={() => navigate("/all-ajo-groups")} disabled={loading}>
+                <Percent size={14} color="#16a34a" />
+                <span>View All Groups</span>
+              </button>
+            </div>
 
-                <div className="comm-recharts-container-frame">
+            {/* Chart Visualization Dynamic Rendering */}
+            <div className="comm-panel-card-box">
+              <div className="comm-panel-card-header">
+                <h3>Commission Trends</h3>
+                <span className="comm-chart-inline-indicator-badge">Live Metrics</span>
+              </div>
+
+              <div className="comm-recharts-container-frame">
+                {loading ? (
+                  <div className="comm-chart-loading-state">
+                    <ThreeDotLoader label="Loading trends" />
+                  </div>
+                ) : (
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={dynamicChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
@@ -249,32 +278,46 @@ export default function CommissionDashboard() {
                       />
                     </AreaChart>
                   </ResponsiveContainer>
-                </div>
-
-                <div className="comm-chart-aggregate-footer">
-                  <span>Aggregated Earnings Summary</span>
-                  <h4>₦{totalEarnings.toLocaleString()}</h4>
-                </div>
+                )}
               </div>
 
+              <div className="comm-chart-aggregate-footer">
+                <span>Aggregated Earnings Summary</span>
+                {loading ? (
+                  <div className="comm-chart-footer-loader">
+                    <ThreeDotLoader label="Loading summary" />
+                  </div>
+                ) : (
+                  <h4>₦{totalEarnings.toLocaleString()}</h4>
+                )}
+              </div>
             </div>
 
-            {/* Bottom Interaction Display Box */}
-            <section className="comm-cta-banner-card">
-              <div className="comm-cta-icon-decorator">
-                <Sparkles size={24} color="#16a34a" />
-              </div>
-              <div className="comm-cta-text-block">
-                <h3>Keep growing your groups!</h3>
-                <p>More groups and consistent contributions mean higher platform processing records and increased commission payouts.</p>
-              </div>
-              <button className="comm-cta-trigger-btn" onClick={() => navigate("/creategroup")}>
-                <Plus size={16} color="#ffffff" />
-                <span>Create New Group</span>
-              </button>
-            </section>
-          </>
-        )}
+          </div>
+
+          {/* Bottom Interaction Display Box */}
+          <section className="comm-cta-banner-card">
+            <div className="comm-cta-icon-decorator">
+              <Sparkles size={24} color="#16a34a" />
+            </div>
+            <div className="comm-cta-text-block">
+              {loading ? (
+                <div className="comm-cta-loading-state">
+                  <ThreeDotLoader label="Preparing action card" />
+                </div>
+              ) : (
+                <>
+                  <h3>Keep growing your groups!</h3>
+                  <p>More groups and consistent contributions mean higher platform processing records and increased commission payouts.</p>
+                </>
+              )}
+            </div>
+            <button className="comm-cta-trigger-btn" onClick={() => navigate("/creategroup")} disabled={loading}>
+              <Plus size={16} color="#ffffff" />
+              <span>Create New Group</span>
+            </button>
+          </section>
+        </>
       </div>
 
       {/* Mobile Layout Target Injection Override */}
