@@ -115,8 +115,8 @@ function Navbar() {
         </nav>
 
         <div className="nav-cta">
-          <button className="nav-login" onClick={() => navigate('../signin')}>Log in</button>
-          <button onClick={() => navigate('./register')} className="btn btn-sm">Get started</button>
+          <button className="nav-login" onClick={() => navigate('/auth')}>Log in</button>
+          <button onClick={() => navigate('/auth')} className="btn btn-sm">Get started</button>
         </div>
 
         <button
@@ -137,8 +137,8 @@ function Navbar() {
             <a href="#how-it-works" className="nav-link">How it works</a>
             <a href="#features" className="nav-link">Features</a>
             <div className="mobile-divider" />
-            <button className="mobile-login" onClick={() => navigate('./signin')}>Log in</button>
-            <button className="mobile-cta" onClick={() => navigate('/register')}>Get started</button>
+            <button className="mobile-login" onClick={() => navigate('/auth')}>Log in</button>
+            <button className="mobile-cta" onClick={() => navigate('/auth')}>Get started</button>
           </motion.div>
         )}
       </div>
@@ -176,7 +176,7 @@ function Hero() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="hero-ctas">
-              <button className="btn btn-primary" onClick={() => navigate('./auth')}>
+              <button className="btn btn-primary" onClick={() => navigate('/auth')}>
                 Get started as an Alajo
                 <ArrowRight size={18} />
               </button>
@@ -406,7 +406,7 @@ function CTASection() {
               Join Alajos across Nigeria managing their contributions, cycles,
               and payouts digitally with KoloPocket.
             </p>
-            <button className="cta-button" onClick={() => navigate('./auth')}>
+            <button className="cta-button" onClick={() => navigate('/auth')}>
               Set up your first group
               <ArrowRight size={20} />
             </button>
