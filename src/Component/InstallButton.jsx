@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
+import { X } from 'lucide-react'
 import './InstallButton.css'
 
 export default function InstallButton() {
-  const [promptEvent, setPromptEvent] = useState(null)
+  const [promptEvent, setPromptEvent] = useState(() => window.deferredPrompt || null)
   const [isInstalled, setIsInstalled] = useState(false)
+  const [isDismissed, setIsDismissed] = useState(false)
+  const [isInstalling, setIsInstalling] = useState(false)
 
   useEffect(() => {
     const handler = (event) => {
@@ -14,14 +17,10 @@ export default function InstallButton() {
 
     const appInstalled = () => {
       setIsInstalled(true)
-      alert('KoloPocket installed')
     }
 
     window.addEventListener('beforeinstallprompt', handler)
     window.addEventListener('appinstalled', appInstalled)
-    if (window.deferredPrompt) {
-      setPromptEvent(window.deferredPrompt)
-    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handler)
@@ -32,36 +31,46 @@ export default function InstallButton() {
   const handleInstall = async () => {
     const prompt = promptEvent || window.deferredPrompt
     if (!prompt) {
-      alert('Install prompt is not available on this browser. Use your browser menu to install.')
       return
     }
 
-    alert('Installing KoloPocket')
-    prompt.prompt()
+    setIsInstalling(true)
 
     try {
-      const choiceResult = await promptEvent.userChoice
+      await prompt.prompt()
+      const choiceResult = await prompt.userChoice
       if (choiceResult.outcome === 'accepted') {
         setIsInstalled(true)
-        alert('KoloPocket installed')
-      } else {
-        alert('KoloPocket installation canceled')
       }
-    } catch (err) {
-      alert('Installation failed. Please try again.')
     } finally {
+      setIsInstalling(false)
       setPromptEvent(null)
       window.deferredPrompt = null
     }
   }
 
-  if (isInstalled) return null
+  if (isInstalled || isDismissed) return null
 
   return (
-    <div className="install-card">
-      <button className="install-button" onClick={handleInstall}>
-        Install KoloPocket
+    <aside className="install-card" aria-label="Install KoloPocket">
+      <div className="install-message">
+        <span className="install-mark" aria-hidden="true">K</span>
+        <div>
+          <p className="install-title">Install KoloPocket</p>
+          <p className="install-description">Keep your collection close at hand.</p>
+        </div>
+      </div>
+      <button className="install-button" onClick={handleInstall} disabled={isInstalling}>
+        {isInstalling ? 'Installing...' : 'Install app'}
       </button>
-    </div>
+      <button
+        className="install-dismiss"
+        onClick={() => setIsDismissed(true)}
+        aria-label="Cancel KoloPocket installation"
+        title="Cancel"
+      >
+        <X size={18} strokeWidth={2.25} />
+      </button>
+    </aside>
   )
 }

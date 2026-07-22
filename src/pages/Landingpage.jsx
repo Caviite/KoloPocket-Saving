@@ -40,51 +40,51 @@ const itemVariants = {
 const steps = [
   {
     number: '1',
-    title: 'Create or join a savings group',
+    title: 'Set up your Ajo group',
     description:
-      'Start a group with your community or join an existing one. Define your cycle (daily, weekly, or monthly) and contribution amount.',
+      'Create a savings group for your contributors. Define your cycle (daily, weekly, or monthly), contribution amount, and your commission.',
     icon: Target,
   },
   {
     number: '2',
-    title: 'Contribute regularly',
+    title: 'Record every contribution',
     description:
-      'Members contribute their fixed amount on schedule. Track every payment transparently with digital records—no disputes, no confusion.',
+      'Log each contribution as it comes in. Keep clean, transparent digital records for every member—no notebooks, no disputes.',
     icon: ArrowDownToLine,
   },
   {
     number: '3',
-    title: 'Receive automatic payouts',
+    title: 'Manage payouts and commission',
     description:
-      'At the end of each cycle, everyone receives their share automatically. The group organizer gets a fair commission for managing the group.',
+      'At the end of each cycle, manage payouts to your members directly and track the commission you earn for running the group.',
     icon: CheckCircle2,
   },
 ]
 
 const features = [
   {
-    title: 'Group Savings Made Easy',
+    title: 'Built for Alajos',
     description:
-      'Create groups with family, friends, or colleagues. Everyone contributes together toward a shared savings goal with perfect transparency.',
+      'Create and manage as many Ajo groups as you need for your community, all from a single collector dashboard.',
     icon: SlidersHorizontal,
   },
   {
-    title: 'Automatic Payouts',
+    title: 'Payout Tracking',
     description:
-      'No manual calculations or delays. When the cycle ends, funds are distributed automatically to all members fairly and instantly.',
+      'Stay in control of every payout. Record disbursements accurately and keep a clear, organized history for every cycle.',
     icon: ShieldCheck,
   },
   {
-    title: 'Complete Transparency',
+    title: 'Accurate Digital Records',
     description:
-      'Every contribution is recorded digitally. Members can track payments, progress, and payouts in real-time. Build trust through visibility.',
+      'Every contribution and payout is recorded digitally, so you always have reliable, up-to-date records for every group you run.',
     icon: LineChart,
   },
 ]
 
 const stats = [
   { value: '₦500M+', label: 'Saved collectively' },
-  { value: '100k+', label: 'Active savers' },
+  { value: '100k+', label: 'Active collectors' },
   { value: '50k+', label: 'Groups created' },
 ]
 
@@ -105,7 +105,7 @@ function Navbar() {
       <div className="container navbar-inner">
         <div className="logo">
           <div className="logo-icon">
-            <img src={kpLogo} alt="KoloPocket logo" style={{width: 90, height: 80,  background: 'transparent', objectFit: 'cover'}} />
+            <img src={kpLogo} alt="KoloPocket logo" style={{ width: 90, height: 80, background: 'transparent', objectFit: 'cover' }} />
           </div>
         </div>
 
@@ -115,8 +115,8 @@ function Navbar() {
         </nav>
 
         <div className="nav-cta">
-          <button className="nav-login" onClick={() => navigate('./auth')}>Log in</button>
-          <button onClick={() => navigate('./auth')} className="btn btn-sm">Get started</button>
+          <button className="nav-login" onClick={() => navigate('../signin')}>Log in</button>
+          <button onClick={() => navigate('./register')} className="btn btn-sm">Get started</button>
         </div>
 
         <button
@@ -160,24 +160,24 @@ function Hero() {
           >
             <motion.div variants={itemVariants} className="hero-badge">
               <span className="hero-badge-dot" />
-              The smart way to save together
+              Built for Ajo collectors (Alajos)
             </motion.div>
 
             <motion.h1 variants={itemVariants} className="hero-title">
-              Save together.
+              Run your Ajo.
               <br />
-              <span className="accent">Grow your wealth with community.</span>
+              <span className="accent">Manage every group with ease.</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="hero-subtitle">
-              Join or create savings groups with your community. Contribute regularly,
-              track progress transparently, and receive automatic payouts at cycle end.
-              The smart way to save together.
+              KoloPocket is a dashboard built exclusively for Alajos. Set up your groups,
+              record contributions, manage cycles and payouts, and keep clean digital
+              records—all from one place. To use KoloPocket, you become a collector.
             </motion.p>
 
             <motion.div variants={itemVariants} className="hero-ctas">
               <button className="btn btn-primary" onClick={() => navigate('./auth')}>
-                Start saving now
+                Get started as an Alajo
                 <ArrowRight size={18} />
               </button>
               <InstallButton />
@@ -305,8 +305,8 @@ function HowItWorks() {
         <div className="section-head">
           <h2 className="section-title">How <span className="pocket">KoloPocket</span> works</h2>
           <p className="section-subtitle">
-            Three simple steps to create a savings group, manage contributions,
-            and receive automatic payouts with complete transparency.
+            Three simple steps to set up your Ajo group, record contributions,
+            and manage payouts with complete accuracy.
           </p>
         </div>
 
@@ -343,10 +343,10 @@ function Features() {
     <section id="features" className="section">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-title">Everything you need to save together</h2>
+          <h2 className="section-title">Everything you need to run your Ajo</h2>
           <p className="section-subtitle">
-            Powerful features designed to make group savings transparent,
-            secure, and hassle-free for everyone.
+            Powerful features designed to make managing your groups transparent,
+            secure, and hassle-free for you as the collector.
           </p>
         </div>
 
@@ -401,13 +401,13 @@ function CTASection() {
           </svg>
 
           <div className="cta-inner">
-            <h2 className="cta-title">Ready to start saving with your community?</h2>
+            <h2 className="cta-title">Ready to run your Ajo groups the smart way?</h2>
             <p className="cta-subtitle">
-              Join thousands of Nigerians who are building wealth together
-              with transparent, secure group savings through KoloPocket.
+              Join Alajos across Nigeria managing their contributions, cycles,
+              and payouts digitally with KoloPocket.
             </p>
             <button className="cta-button" onClick={() => navigate('./auth')}>
-              Create your first group
+              Set up your first group
               <ArrowRight size={20} />
             </button>
           </div>
@@ -425,12 +425,12 @@ function Footer() {
           <div className="footer-brand">
             <div className="logo">
               <div className="logo-icon">
-                <img src={kpLogo} alt="KoloPocket logo" style={{width: 90, height: 50, background: 'transparent', objectFit: 'cover'}} />
+                <img src={kpLogo} alt="KoloPocket logo" style={{ width: 90, height: 50, background: 'transparent', objectFit: 'cover' }} />
               </div>
             </div>
             <p className="footer-tagline">
-              The smart savings app that brings transparency, security, and
-              automation to group savings. Save together, grow together.
+              The dashboard built for Alajos—manage your Ajo groups,
+              contributions, cycles, and payouts with transparency and security.
             </p>
 
           </div>
@@ -465,7 +465,7 @@ function Footer() {
 
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} KoloPocket Inc. All rights reserved.</p>
-          <span>Made with ❤️ for savers</span>
+          <span>Made with ❤️ for Alajos</span>
         </div>
       </div>
     </footer>

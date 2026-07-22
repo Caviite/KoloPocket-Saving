@@ -1,39 +1,144 @@
 .install-card {
   position: fixed;
-  left: 20px;
-  bottom: 20px;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: auto;
-  padding: 8px;
-  border-radius: 18px;
-  background: transparent;
-  border: 1px solid rgba(22, 163, 74, 0.18);
+  gap: 18px;
+  width: min(calc(100% - 32px), 620px);
+  padding: 14px 14px 14px 16px;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 42px rgba(21, 128, 61, 0.18), 0 3px 10px rgba(17, 24, 39, 0.08);
+  backdrop-filter: blur(14px);
+  animation: install-banner-in 0.35s ease-out both;
+}
+
+.install-message {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+
+.install-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.24);
+}
+
+.install-title,
+.install-description {
+  margin: 0;
+}
+
+.install-title {
+  color: #14532d;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.install-description {
+  margin-top: 3px;
+  color: #6b7280;
+  font-size: 12px;
 }
 
 .install-button {
-  padding: 14px 20px;
-  border-radius: 18px;
-  border: 1px solid rgba(22, 163, 74, 0.7);
-  background: transparent;
-  color: #16a34a;
-  font-size: 15px;
+  flex: 0 0 auto;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #16a34a;
+  color: #fff;
+  font-size: 13px;
   font-weight: 700;
-  text-transform: none;
-  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .install-button:hover {
   transform: translateY(-1px);
-  background: rgba(22, 163, 74, 0.18);
-  box-shadow: 0 14px 28px rgba(34, 197, 94, 0.35);
+  background: #15803d;
+  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.28);
+}
+
+.install-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .install-button:active {
   transform: translateY(0);
+}
+
+.install-dismiss {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.install-dismiss:hover {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.install-button:focus-visible,
+.install-dismiss:focus-visible {
+  outline: 3px solid rgba(34, 197, 94, 0.35);
+  outline-offset: 2px;
+}
+
+@keyframes install-banner-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 560px) {
+  .install-card {
+    top: 10px;
+    gap: 9px;
+    padding: 12px 10px 12px 12px;
+  }
+
+  .install-description {
+    display: none;
+  }
+
+  .install-title {
+    font-size: 12px;
+  }
+
+  .install-button {
+    padding: 10px 11px;
+    font-size: 12px;
+  }
 }
 
