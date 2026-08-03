@@ -8,11 +8,14 @@ import {
     FaExclamationTriangle,
     FaUsers,
     FaUserPlus,
+    FaArrowLeft,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { privateInstance } from "../api/api";
 import "./Contributor.css";
 
 const ContributorsPage = () => {
+    const navigate = useNavigate();
     // ─── State ──────────────────────────────────────────────────────────────
     const [contributors, setContributors] = useState([]);
     const [filteredContributors, setFilteredContributors] = useState([]);
@@ -46,8 +49,13 @@ const ContributorsPage = () => {
                             // Ensure the contributor object exists and has a valid ID or Email
                             const identityKey = contributor._id || contributor.id || contributor.email;
                             if (identityKey) {
+                                const contributorWithGroup = {
+                                    ...contributor,
+                                    groupName: group.name || "Unknown Group",
+                                };
+
                                 // Map stores them uniquely so duplicates across multiple groups don't show up twice
-                                uniqueContributorsMap.set(identityKey, contributor);
+                                uniqueContributorsMap.set(identityKey, contributorWithGroup);
                             }
                         });
                     }
@@ -160,10 +168,18 @@ const ContributorsPage = () => {
         <div className="contributors-page">
             {/* Header */}
             <div className="contributors-header">
-                <h1 className="page-title">My Beneficiaries</h1>
-                <p className="text-secondary page-subtitle">
-                    {contributors.length} unique contributor{contributors.length !== 1 ? "s" : ""} across your active groups
-                </p>
+                <div className="contributors-title-wrap">
+                    <button className="contributors-back-btn" onClick={() => navigate(-1)}>
+                        <FaArrowLeft className="back-icon" />
+                        <span>Back</span>
+                    </button>
+                    <div>
+                        <h1 className="page-title">My Beneficiaries</h1>
+                        <p className="text-secondary page-subtitle">
+                            {contributors.length} unique contributor{contributors.length !== 1 ? "s" : ""} across your active groups
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Search Bar */}
@@ -214,7 +230,9 @@ const ContributorsPage = () => {
                                 </div>
                                 <div className="card-body">
                                     <h4 className="card-name">{fullName}</h4>
-                                    <p className="card-email text-secondary">{contributor.email || "No email linked"}</p>
+                                    <p className="card-email text-secondary">
+                                        Group: {contributor.groupName || "Unknown Group"}
+                                    </p>
                                     {contributor.phoneNumber && (
                                         <p className="card-phone text-secondary" style={{ fontSize: '12px', marginTop: '2px' }}>
                                             {contributor.phoneNumber}

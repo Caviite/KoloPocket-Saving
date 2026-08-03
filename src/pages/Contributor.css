@@ -22,11 +22,45 @@
 /* ─── Header ────────────────────────────────────────────────────────────── */
 .contributors-header {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
     margin-bottom: 1.75rem;
+}
+
+.contributors-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.contributors-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.95rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contributors-back-btn:hover {
+    background: #f3f4f6;
+    border-color: #16a34a;
+    color: #16a34a;
+}
+
+.back-icon {
+    font-size: 0.85rem;
 }
 
 .page-title {
@@ -35,6 +69,11 @@
     letter-spacing: -0.01em;
     margin: 0;
     color: #1e293b;
+    text-align: center;
+}
+
+.page-subtitle {
+    text-align: center;
 }
 
 /* ─── Search Bar ────────────────────────────────────────────────────────── */

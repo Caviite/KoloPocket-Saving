@@ -109,14 +109,16 @@ const Spinner = ({ size = 18 }) => (
 );
 
 // ─── Receipt Modal ────────────────────────────────────────────────────────────
-const ReceiptModal = ({ group, contributor, walletBalance, onClose, onConfirm, submitting, success }) => {
+const ReceiptModal = ({ group, contributor, walletBalance, onClose, onConfirm, submitting, success, totalCollectedThisCycle, commissionAmount, payoutAmount }) => {
   if (!group || !contributor) return null;
 
   const memberCount = group.contributors?.length || 1;
   const cycleAmount = Number(group.amount) || 0;
-  const flatFee = Number(group.commissionAmount) || 0;
-  const totalPool = cycleAmount * memberCount;
-  const netPayout = totalPool - flatFee;
+  // Prefer the real, cycle-verified figures from the readiness check.
+  // Fall back to the old assumed math only if they weren't passed in.
+  const flatFee = commissionAmount != null ? commissionAmount : (Number(group.commissionAmount) || 0);
+  const totalPool = totalCollectedThisCycle != null ? totalCollectedThisCycle : cycleAmount * memberCount;
+  const netPayout = payoutAmount != null ? payoutAmount : totalPool - flatFee;
 
   const isBalanceInsufficient = walletBalance < netPayout;
 
@@ -259,6 +261,11 @@ const SendPayout = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedContributor, setSelectedContributor] = useState(null);
 
+  // ── Payout readiness (who's next + is the cycle ready) ──────────────────
+  const [payoutStatus, setPayoutStatus] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [statusError, setStatusError] = useState(null);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -311,11 +318,27 @@ const SendPayout = () => {
     fetchGroupsAndWallet();
   }, [fetchGroupsAndWallet]);
 
+  const fetchPayoutStatus = useCallback(async (groupId) => {
+    try {
+      setLoadingStatus(true);
+      setStatusError(null);
+      const res = await privateInstance.get(`/api/payouts/readiness/${groupId}`);
+      setPayoutStatus(res.data);
+    } catch (err) {
+      setStatusError('Unable to check payout readiness for this group.');
+      setPayoutStatus(null);
+    } finally {
+      setLoadingStatus(false);
+    }
+  }, []);
+
   const handleSelectGroup = (group) => {
     if (selectedGroup?._id === group._id) return;
     setSelectedGroup(group);
     setSelectedContributor(null);
     setSuccess(false);
+    setPayoutStatus(null);
+    fetchPayoutStatus(group._id);
   };
 
   const handleSelectContributor = (contributor) => {
@@ -506,35 +529,106 @@ const SendPayout = () => {
                 </div>
               </div>
 
+              {/* ── Payout readiness banner ── */}
+              {loadingStatus ? (
+                <div className="sp-status-banner" style={{ margin: '0 0 16px 0', padding: '12px 14px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Spinner size={16} />
+                  <span style={{ fontSize: '13px', color: '#6b7280', fontWeight: '600' }}>Checking payout readiness…</span>
+                </div>
+              ) : statusError ? (
+                <div className="sp-status-banner" style={{ margin: '0 0 16px 0', padding: '12px 14px', background: '#fef2f2', border: '1px solid #fee2e2', borderRadius: '8px' }}>
+                  <span style={{ fontSize: '13px', color: '#991b1b', fontWeight: '600' }}>{statusError}</span>
+                </div>
+              ) : payoutStatus && !payoutStatus.ready ? (
+                <div className="sp-status-banner" style={{ margin: '0 0 16px 0', padding: '12px 14px', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: payoutStatus.unpaidContributors?.length ? '6px' : 0 }}>
+                    <Icon name="warning" size={16} style={{ color: '#b45309' }} />
+                    <span style={{ fontSize: '13px', color: '#92400e', fontWeight: '700' }}>Waiting on payment this cycle</span>
+                  </div>
+                  {payoutStatus.unpaidContributors?.length > 0 && (
+                    <p style={{ fontSize: '12.5px', color: '#92400e', margin: 0, paddingLeft: '24px' }}>
+                      Still owing: {payoutStatus.unpaidContributors.map((c) => c.name).join(', ')}
+                    </p>
+                  )}
+                </div>
+              ) : payoutStatus?.ready && payoutStatus?.nextContributor ? (
+                <div className="sp-status-banner" style={{ margin: '0 0 16px 0', padding: '12px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Icon name="check" size={16} style={{ color: '#16a34a' }} />
+                  <span style={{ fontSize: '13px', color: '#166534', fontWeight: '700' }}>
+                    Everyone's paid — {payoutStatus.nextContributor.name} is next up.
+                  </span>
+                </div>
+              ) : null}
+
               <ul className="sp-contributor-list" aria-label="Contributors">
                 {selectedGroup.contributors?.length === 0 ? (
                   <li className="sp-contributor-empty">No contributors found in this group.</li>
                 ) : (
-                  selectedGroup.contributors.map((contributor) => (
-                    <li key={contributor._id} className="sp-contributor-card">
-                      <div className="sp-contributor-avatar" aria-hidden="true">
-                        {contributor.name?.charAt(0)?.toUpperCase() || '?'}
-                      </div>
-                      <div className="sp-contributor-info">
-                        <span className="sp-contributor-name">
-                          <Icon name="user" size={13} />
-                          {contributor.name}
-                        </span>
-                        <span className="sp-contributor-phone">
-                          <Icon name="phone" size={13} />
-                          {contributor.phone}
-                        </span>
-                      </div>
-                      <button
-                        className="sp-btn sp-btn--payout"
-                        onClick={() => handleSelectContributor(contributor)}
-                        aria-label={`Select ${contributor.name} for payout`}
-                      >
-                        <Icon name="send" size={14} />
-                        Select for Payout
-                      </button>
-                    </li>
-                  ))
+                  selectedGroup.contributors.map((contributor) => {
+                    const isNextUp = payoutStatus?.ready && payoutStatus?.nextContributor?._id === contributor._id;
+                    const canPayout = isNextUp && !loadingStatus;
+
+                    // ── Work out exactly why this person's button is locked ──
+                    let lockReason = null;
+                    if (!canPayout) {
+                      if (loadingStatus) {
+                        lockReason = 'Checking payout status…';
+                      } else if (!payoutStatus) {
+                        lockReason = 'Payout status unavailable';
+                      } else if (!payoutStatus.ready) {
+                        const isThisPersonUnpaid = payoutStatus.unpaidContributors?.some(
+                          (c) => c._id === contributor._id
+                        );
+                        lockReason = isThisPersonUnpaid
+                          ? "Hasn't paid this cycle yet"
+                          : 'Waiting on other contributors to pay';
+                      } else if (payoutStatus.nextContributor) {
+                        lockReason = `Not their turn — ${payoutStatus.nextContributor.name} is next up`;
+                      } else {
+                        lockReason = 'Rotation order not set for this contributor';
+                      }
+                    }
+
+                    return (
+                      <li key={contributor._id} className="sp-contributor-card">
+                        <div className="sp-contributor-avatar" aria-hidden="true">
+                          {contributor.name?.charAt(0)?.toUpperCase() || '?'}
+                        </div>
+                        <div className="sp-contributor-info">
+                          <span className="sp-contributor-name">
+                            <Icon name="user" size={13} />
+                            {contributor.name}
+                            {isNextUp && (
+                              <span style={{ marginLeft: '8px', fontSize: '10.5px', fontWeight: '700', color: '#16a34a', background: '#dcfce7', padding: '2px 8px', borderRadius: '999px' }}>
+                                NEXT UP
+                              </span>
+                            )}
+                          </span>
+                          <span className="sp-contributor-phone">
+                            <Icon name="phone" size={13} />
+                            {contributor.phone}
+                          </span>
+                          {lockReason && (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11.5px', color: '#9ca3af', marginTop: '3px', fontWeight: '500' }}>
+                              <Icon name="warning" size={11} />
+                              {lockReason}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          className="sp-btn sp-btn--payout"
+                          onClick={() => canPayout && handleSelectContributor(contributor)}
+                          disabled={!canPayout}
+                          aria-label={canPayout ? `Select ${contributor.name} for payout` : `${contributor.name} locked: ${lockReason}`}
+                          title={!canPayout ? lockReason : undefined}
+                          style={!canPayout ? { opacity: 0.4, cursor: 'not-allowed' } : {}}
+                        >
+                          <Icon name="send" size={14} />
+                          Select for Payout
+                        </button>
+                      </li>
+                    );
+                  })
                 )}
               </ul>
             </div>
@@ -551,6 +645,9 @@ const SendPayout = () => {
           onConfirm={handleConfirmPayout}
           submitting={submitting}
           success={success}
+          totalCollectedThisCycle={payoutStatus?.totalCollectedThisCycle}
+          commissionAmount={payoutStatus?.commissionAmount}
+          payoutAmount={payoutStatus?.payoutAmount}
         />
       )}
     </div>

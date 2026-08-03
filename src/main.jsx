@@ -6,6 +6,18 @@ import './index.css'
 import App from './App.jsx'
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+const savedTheme = localStorage.getItem('kolo_theme') || 'light'
+const root = document.documentElement
+
+if (savedTheme === 'dark') {
+  root.setAttribute('data-theme', 'dark')
+} else if (savedTheme === 'light') {
+  root.setAttribute('data-theme', 'light')
+} else {
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  root.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light')
+}
+
 // Capture the install prompt before React mounts to avoid the race condition
 window.deferredPrompt = null
 window.addEventListener('beforeinstallprompt', (e) => {

@@ -280,7 +280,10 @@ export default function CreateGroup() {
             <div className="error-icon"><Icon name="alertCircle" size={52} color="#ef4444" /></div>
             <h2>Error Loading Group</h2>
             <p>{loadError}</p>
-            <button className="cg-btn-primary" onClick={() => navigate(-1)}>Go Back</button>
+            <button className="cg-btn-primary" onClick={() => navigate(-1)}>
+              <Icon name="arrowLeft" size={16} color="#ffffff" />
+              <span>Go Back</span>
+            </button>
           </div>
         </div>
         <BottomNav />

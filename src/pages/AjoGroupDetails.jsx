@@ -105,6 +105,7 @@ export default function AjoGroupDetails() {
         <header className="details-header">
           <button className="back-btn" onClick={() => navigate(-1)}>
             <Icon name="arrowLeft" size={20} color="#6b7280" />
+            <span>Back</span>
           </button>
           <h1 className="header-title">Group Details</h1>
           <div className="header-spacer" />
@@ -122,6 +123,7 @@ export default function AjoGroupDetails() {
         <header className="details-header">
           <button className="back-btn" onClick={() => navigate(-1)}>
             <Icon name="arrowLeft" size={20} color="#6b7280" />
+            <span>Back</span>
           </button>
           <h1 className="header-title">Group Details</h1>
           <div className="header-spacer" />
@@ -154,6 +156,7 @@ export default function AjoGroupDetails() {
       <header className="details-header">
         <button className="back-btn" onClick={() => navigate(-1)}>
           <Icon name="arrowLeft" size={20} color="#6b7280" />
+          <span>Back</span>
         </button>
         <h1 className="header-title">{name}</h1>
         <div className="header-spacer" />

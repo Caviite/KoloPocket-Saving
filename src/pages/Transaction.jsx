@@ -145,6 +145,7 @@ export default function Transactions() {
           <div className="tx-page-header">
             <button className="tx-back-btn" onClick={() => navigate(-1)}>
               <Icon name="chevronLeft" size={16} color="currentColor" />
+              <span>Back</span>
             </button>
             <h1 className="tx-page-title">All Recent Transactions</h1>
             <div style={{ width: 36 }}></div>

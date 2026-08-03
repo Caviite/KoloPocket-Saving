@@ -17,17 +17,20 @@
 }
 
 .tx-back-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  gap: 6px;
+  padding: 8px 12px;
+  min-height: 36px;
   border-radius: 8px;
   border: 1px solid #E5E7EB;
   background-color: #FFFFFF;
   color: #1F2937;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .tx-back-btn:hover {

@@ -26,14 +26,19 @@
   background: #f3f4f6;
   border: none;
   border-radius: 10px;
-  width: 40px;
-  height: 40px;
-  display: flex;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0 12px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   cursor: pointer;
   transition: background 0.18s;
   flex-shrink: 0;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .back-btn:hover {

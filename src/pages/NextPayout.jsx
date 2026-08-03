@@ -1,321 +1,299 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { authContext } from '../Context/authcontext';
 import { privateInstance } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import './NextPayout.css';
-import ButtomNav from '../Component/BottomNav';
+import BottomNav from '../Component/BottomNav';
 
-// Icon Component
-const Icon = ({ name, size = 24, color = "currentColor" }) => {
-  const ICON_PATHS = {
-    arrowLeft: <polyline points="15 18 9 12 15 6" />,
-    arrowRight: <polyline points="9 18 15 12 9 6" />,
-    calendar: (
-      <>
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-        <line x1="16" y1="2" x2="16" y2="6" />
-        <line x1="8" y1="2" x2="8" y2="6" />
-        <line x1="3" y1="10" x2="21" y2="10" />
-      </>
-    ),
-    user: (
-      <>
-        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-        <circle cx="12" cy="7" r="4" />
-      </>
-    ),
-    folder: (
-      <>
-        <path d="M22 19a2 2 0 01-2.414-1.80078c-.874-.726-2.612-2.707-4.46-6.702-.973-2.143-1.784-4.588-2.953-7.111a1 1 0 00-.elevate-.106H2a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
-      </>
-    ),
-    clock: (
-      <>
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </>
-    ),
+// ─── Icon Set ─────────────────────────────────────────────────────────────
+const Icon = ({ name, size = 20, className = '' }) => {
+  const paths = {
+    arrowLeft: <><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></>,
+    naira: <path d="M5 6h14M5 18h14M7 6l10 12M17 6L7 18M5 12h14" />,
+    users: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>,
+    clock: <><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></>,
     check: <polyline points="20 6 9 17 4 12" />,
-    gift: (
-      <>
-        <polyline points="20 12 20 22 4 22 4 12" />
-        <rect x="2" y="7" width="20" height="5" />
-        <line x1="12" y1="22" x2="12" y2="7" />
-        <path d="M7 5h10a2 2 0 012 2v2H5V7a2 2 0 012-2z" />
-      </>
-    ),
-    zap: <polyline points="13 2 3 14 12 14 2 22" />,
+    alert: <><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></>,
+    inbox: <><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></>,
+    refresh: <><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></>,
   };
-
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      {ICON_PATHS[name] || ICON_PATHS.arrowRight}
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      {paths[name]}
     </svg>
   );
 };
 
-export default function NextPayout() {
-  const navigate = useNavigate();
-  const [payouts, setPayouts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { user } = useContext(authContext);
+// ─── Helpers ──────────────────────────────────────────────────────────────
+const formatNaira = (amount) =>
+  new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(amount || 0);
 
-  useEffect(() => {
-    const fetchPayouts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+const cycleIcon = (type) => ({ daily: '☉', weekly: '☾', monthly: '✦' }[type] || '✦');
 
-        // Fetch all user's groups
-        const groupRes = await privateInstance.get('/creategroup/getMyGroups');
-        const groups = groupRes.data?.groups || [];
+// ─── Rotation Dial ────────────────────────────────────────────────────────
+// The signature element: a clock-like ring of ticks representing every seat
+// in the rotation, with the current position lit up. This is the one bold
+// visual choice — everything else in the page stays quiet around it.
+const RotationDial = ({ total = 1, position = null, initials = '?', size = 64, tone = 'ready' }) => {
+  const center = size / 2;
+  const radius = size / 2 - 6;
+  const dotRadius = size < 56 ? 2.2 : 2.8;
+  const count = Math.max(total, 1);
 
-        if (groups.length === 0) {
-          setPayouts([]);
-          setLoading(false);
-          return;
-        }
-
-        let allPayouts = [];
-
-        // For each group, get contributions to find next payout
-        for (const group of groups) {
-          try {
-            const contribRes = await privateInstance.get(`/api/contributions/group/${group._id}`);
-
-            if (contribRes.data?.contributions) {
-              const contributions = contribRes.data.contributions
-                .filter(c => c.status === 'completed')
-                .sort((a, b) => new Date(b.paymentDate) - new Date(a.paymentDate));
-
-
-              if (contributions.length > 0) {
-                // Get next payout (most recent contribution)
-                const nextPayout = contributions[0];
-
-                // Get contributor name - with better fallback
-                let contributorName = nextPayout.contributorName || 'Unknown';
-                let contributorInitial = (nextPayout.contributorName || 'U')[0]?.toUpperCase();
-
-                if (nextPayout.contributorId) {
-                  if (typeof nextPayout.contributorId === 'object' && nextPayout.contributorId.name) {
-                    // If it's an object with name property
-                    contributorName = nextPayout.contributorId.name;
-                    contributorInitial = nextPayout.contributorId.name[0]?.toUpperCase() || 'U';
-                  } else if (typeof nextPayout.contributorId === 'string') {
-                    // If it's just an ID, try to find the name from group contributors
-                    const groupContributor = group.contributors?.find(
-                      c => c._id === nextPayout.contributorId || c === nextPayout.contributorId
-                    );
-                    if (groupContributor) {
-                      contributorName = groupContributor.name || 'Unknown Contributor';
-                      contributorInitial = (groupContributor.name || 'U')[0]?.toUpperCase();
-                    }
-                  }
-                }
-
-                allPayouts.push({
-                  id: nextPayout._id,
-                  groupId: group._id,
-                  groupName: group.name,
-                  groupIcon: group.cycleType === 'daily' ? '📅' : group.cycleType === 'weekly' ? '📆' : '🗓️',
-                  contributorName: contributorName,
-                  contributorInitial: contributorInitial,
-                  amount: nextPayout.amount,
-                  daysLeft: group.cycleDuration || 30,
-                  paymentDate: nextPayout.paymentDate,
-                  status: nextPayout.status,
-                  cycleType: group.cycleType
-                });
-              }
-            }
-          } catch (groupErr) {
-            console.warn(`⚠️ Error fetching payouts for group ${group._id}:`, groupErr.message);
-          }
-        }
-
-        // Sort by days left (urgent first)
-        allPayouts.sort((a, b) => a.daysLeft - b.daysLeft);
-        setPayouts(allPayouts);
-
-      } catch (err) {
-        console.error('❌ Error fetching payouts:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.id) {
-      fetchPayouts();
-    }
-  }, [user?.id]);
-
-  if (loading) {
-    return (
-      <div className="next-payout-container">
-        <div className="payout-header">
-          <div className="header-content">
-            <Icon name="gift" size={24} color="#16a34a" />
-            <h2>Upcoming Payouts</h2>
-          </div>
-        </div>
-        <div className="loading-state">
-          <div className="spinner"></div>
-          <p>Loading payouts...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="next-payout-container">
-        <div className="payout-header">
-          <div className="header-content">
-            <Icon name="gift" size={24} color="#16a34a" />
-            <h2>Upcoming Payouts</h2>
-          </div>
-        </div>
-        <div className="error-state">
-          <Icon name="zap" size={32} color="#ef4444" />
-          <p>Error loading payouts: {error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (payouts.length === 0) {
-    return (
-      <div className="next-payout-container">
-        <div className="payout-header">
-          <div className="header-content">
-            <div className="header-left">
-              <Icon name="gift" size={24} color="#16a34a" />
-              <h2>Upcoming Payouts</h2>
-            </div>
-            <button className="back-btn" onClick={() => navigate('/dashboard')}>
-              <Icon name="arrowLeft" size={18} color="#16a34a" />
-              Back
-            </button>
-          </div>
-        </div>
-        <div className="empty-state">
-          <Icon name="calendar" size={40} color="#d1d5db" />
-          <p>No upcoming payouts yet</p>
-          <span>Payouts will appear once contributions are received</span>
-        </div>
-      </div>
-    );
-  }
+  const dots = Array.from({ length: count }, (_, i) => {
+    const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+    const cx = center + radius * Math.cos(angle);
+    const cy = center + radius * Math.sin(angle);
+    const isActive = position != null && i === position - 1;
+    return { cx, cy, isActive };
+  });
 
   return (
-    <div className="next-payout-container">
-      {/* Header with Back Button */}
-      <div className="payout-header">
-        <button className="back-btn" onClick={() => navigate('/dashboard')}>
-          <Icon name="arrowLeft" size={18} color="#16a34a" />
+    <div className={`rp-dial rp-dial--${tone}`} style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="rp-dial-ring">
+        {dots.map((d, i) => (
+          <circle
+            key={i}
+            cx={d.cx}
+            cy={d.cy}
+            r={d.isActive ? dotRadius + 1.1 : dotRadius}
+            className={d.isActive ? 'rp-dial-dot rp-dial-dot--active' : 'rp-dial-dot'}
+          />
+        ))}
+      </svg>
+      <div className="rp-dial-avatar">{initials}</div>
+    </div>
+  );
+};
+
+// ─── Card States ──────────────────────────────────────────────────────────
+const ReadyCard = ({ entry }) => (
+  <div className="rp-card rp-card--ready">
+    <div className="rp-card-top">
+      <span className="rp-group-tag">
+        <span className="rp-group-glyph">{cycleIcon(entry.cycleType)}</span>
+        {entry.groupName}
+      </span>
+      <span className="rp-status-pill rp-status-pill--ready">
+        <Icon name="check" size={11} />
+        Ready
+      </span>
+    </div>
+
+    <div className="rp-card-body">
+      <RotationDial
+        total={entry.totalContributors}
+        position={entry.position}
+        initials={entry.initials}
+        tone="ready"
+      />
+      <div className="rp-card-person">
+        <span className="rp-person-name">{entry.contributorName}</span>
+        <span className="rp-person-position">
+          Seat {entry.position ?? '—'} <span className="rp-position-of">/ {entry.totalContributors}</span>
+        </span>
+      </div>
+    </div>
+
+    <div className="rp-card-amount-row">
+      <div>
+        <span className="rp-amount-label">Net payout due</span>
+        <span className="rp-amount-value">{formatNaira(entry.amount)}</span>
+      </div>
+      <button className="rp-go-btn" onClick={entry.onGoToPayout} aria-label={`Go send payout for ${entry.contributorName}`}>
+        Send →
+      </button>
+    </div>
+  </div>
+);
+
+const WaitingCard = ({ entry }) => (
+  <div className="rp-card rp-card--waiting">
+    <div className="rp-card-top">
+      <span className="rp-group-tag">
+        <span className="rp-group-glyph">{cycleIcon(entry.cycleType)}</span>
+        {entry.groupName}
+      </span>
+      <span className="rp-status-pill rp-status-pill--waiting">
+        <Icon name="clock" size={11} />
+        Waiting
+      </span>
+    </div>
+
+    <div className="rp-waiting-body">
+      <Icon name="alert" size={16} className="rp-waiting-icon" />
+      <div>
+        <p className="rp-waiting-headline">
+          {entry.paidCount} of {entry.totalContributors} paid this cycle
+        </p>
+        {entry.unpaidNames?.length > 0 && (
+          <p className="rp-waiting-sub">Still owing: {entry.unpaidNames.join(', ')}</p>
+        )}
+      </div>
+    </div>
+
+    <div className="rp-waiting-track">
+      <div
+        className="rp-waiting-fill"
+        style={{ width: `${entry.totalContributors ? (entry.paidCount / entry.totalContributors) * 100 : 0}%` }}
+      />
+    </div>
+  </div>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────
+export default function NextPayout() {
+  const navigate = useNavigate();
+  const { user } = useContext(authContext);
+
+  const [readyEntries, setReadyEntries] = useState([]);
+  const [waitingEntries, setWaitingEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchAll = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const groupRes = await privateInstance.get('/creategroup/getMyGroups');
+      const groups = groupRes.data?.groups || [];
+
+      const ready = [];
+      const waiting = [];
+
+      await Promise.all(
+        groups.map(async (group) => {
+          try {
+            const res = await privateInstance.get(`/api/payouts/readiness/${group._id}`);
+            const status = res.data;
+            if (!status?.success) return;
+
+            if (status.ready && status.nextContributor) {
+              const name = status.nextContributor.name || 'Contributor';
+              ready.push({
+                groupId: group._id,
+                groupName: group.name,
+                cycleType: group.cycleType,
+                contributorName: name,
+                initials: name.charAt(0).toUpperCase(),
+                position: status.nextContributor.position,
+                totalContributors: status.totalContributors,
+                amount: status.payoutAmount,
+              });
+            } else {
+              waiting.push({
+                groupId: group._id,
+                groupName: group.name,
+                cycleType: group.cycleType,
+                totalContributors: status.totalContributors,
+                paidCount: status.paidCount,
+                unpaidNames: (status.unpaidContributors || []).map((c) => c.name),
+              });
+            }
+          } catch (groupErr) {
+            console.warn(`⚠️ Readiness check failed for group ${group._id}:`, groupErr.message);
+          }
+        })
+      );
+
+      // Highest payout first among ready groups — most consequential action surfaces first
+      ready.sort((a, b) => (b.amount || 0) - (a.amount || 0));
+      // Closest to complete first among waiting groups — least effort to unblock
+      waiting.sort((a, b) => (b.paidCount / (b.totalContributors || 1)) - (a.paidCount / (a.totalContributors || 1)));
+
+      setReadyEntries(ready);
+      setWaitingEntries(waiting);
+    } catch (err) {
+      console.error('❌ Error fetching payout rotation data:', err);
+      setError(err.message || 'Unable to load rotation data.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?.id) fetchAll();
+  }, [user?.id, fetchAll]);
+
+  const totalReadyAmount = readyEntries.reduce((sum, e) => sum + (e.amount || 0), 0);
+  const goToPayout = () => navigate('/send-payout');
+
+  return (
+    <div className="rp-root">
+      <header className="rp-header">
+        <button className="rp-back-btn" onClick={() => navigate('/dashboard')}>
+          <Icon name="arrowLeft" size={16} />
           Back
         </button>
-        <div className="header-content">
-          <Icon name="gift" size={24} color="#16a34a" />
-          <div className="header-text">
-            <h2>Upcoming Payouts</h2>
-            <span className="payout-count">{payouts.length} pending</span>
-          </div>
+        <div className="rp-header-titles">
+          <span className="rp-eyebrow">Rotation Overview</span>
+          <h1>Who's Collecting Next</h1>
         </div>
-      </div>
+        <button className="rp-refresh-btn" onClick={fetchAll} disabled={loading} aria-label="Refresh">
+          <Icon name="refresh" size={16} />
+        </button>
+      </header>
 
-      {/* Payouts List */}
-      <div className="payouts-list">
-        {payouts.map((payout, idx) => (
-          <div key={payout.id} className="payout-card">
-            {/* Priority Badge - NOW WITH AMOUNT */}
-            {idx === 0 && (
-              <div className="priority-badge">
-                <Icon name="zap" size={14} color="#fff" />
-                <span>Next - ₦{payout.amount.toLocaleString('en-NG')}</span>
-              </div>
-            )}
-
-            {/* Main Content */}
-            <div className="payout-main">
-              {/* Left: Contributor Info */}
-              <div className="contributor-info">
-                <div className="contributor-avatar">
-                  {payout.contributorInitial}
-                </div>
-                <div className="contributor-details">
-                  <div className="contributor-name">{payout.contributorName}</div>
-                  <div className="group-badge">
-                    <Icon name="folder" size={14} color="#94a3b8" />
-                    {payout.groupName}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Amount & Timeline */}
-              <div className="payout-amount-section">
-                <div className="amount">₦{payout.amount.toLocaleString('en-NG')}</div>
-                <div className="timeline">
-                  <Icon name="clock" size={14} color="#f59e0b" />
-                  <span className="days-left">
-                    {payout.daysLeft > 0 ? `in ${payout.daysLeft} days` : 'Today'}
-                  </span>
-                </div>
-              </div>
+      {loading ? (
+        <div className="rp-center-state">
+          <div className="rp-spinner" />
+          <p>Checking every group's rotation…</p>
+        </div>
+      ) : error ? (
+        <div className="rp-center-state rp-center-state--error">
+          <Icon name="alert" size={28} />
+          <p>{error}</p>
+          <button className="rp-retry-btn" onClick={fetchAll}>Try again</button>
+        </div>
+      ) : readyEntries.length === 0 && waitingEntries.length === 0 ? (
+        <div className="rp-center-state">
+          <Icon name="inbox" size={32} />
+          <p className="rp-empty-title">No active rotations yet</p>
+          <span className="rp-empty-sub">Once a group has contributors, their rotation will show up here.</span>
+        </div>
+      ) : (
+        <>
+          <div className="rp-summary-strip">
+            <div className="rp-summary-pill">
+              <span className="rp-summary-value">{readyEntries.length}</span>
+              <span className="rp-summary-label">Ready to pay</span>
             </div>
-
-            {/* Progress Bar */}
-            <div className="payout-progress">
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{
-                    width: `${Math.max(0, (30 - payout.daysLeft) / 30 * 100)}%`
-                  }}
-                ></div>
-              </div>
-              <div className="progress-label">
-                {payout.daysLeft > 0 ? `${Math.round((30 - payout.daysLeft) / 30 * 100)}% complete` : 'Ready'}
-              </div>
+            <div className="rp-summary-pill">
+              <span className="rp-summary-value">{formatNaira(totalReadyAmount)}</span>
+              <span className="rp-summary-label">Total due now</span>
+            </div>
+            <div className="rp-summary-pill">
+              <span className="rp-summary-value">{waitingEntries.length}</span>
+              <span className="rp-summary-label">Still collecting</span>
             </div>
           </div>
-        ))}
-      </div>
 
-      {/* Summary Footer */}
-      <div className="payout-summary">
-        <div className="summary-item">
-          <Icon name="check" size={18} color="#16a34a" />
-          <div>
-            <span className="label">Total Pending</span>
-            <span className="value">
-              ₦{payouts.reduce((sum, p) => sum + p.amount, 0).toLocaleString('en-NG')}
-            </span>
-          </div>
-        </div>
-        <div className="summary-divider"></div>
-        <div className="summary-item">
-          <Icon name="calendar" size={18} color="#3b82f6" />
-          <div>
-            <span className="label">Groups Active</span>
-            <span className="value">{new Set(payouts.map(p => p.groupId)).size}</span>
-          </div>
-        </div>
-      </div>
-      <ButtomNav/>
+          {readyEntries.length > 0 && (
+            <section className="rp-section">
+              <h2 className="rp-section-title">Ready for payout</h2>
+              <div className="rp-grid">
+                {readyEntries.map((entry) => (
+                  <ReadyCard key={entry.groupId} entry={{ ...entry, onGoToPayout: goToPayout }} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {waitingEntries.length > 0 && (
+            <section className="rp-section">
+              <h2 className="rp-section-title">Still collecting this cycle</h2>
+              <div className="rp-grid">
+                {waitingEntries.map((entry) => (
+                  <WaitingCard key={entry.groupId} entry={entry} />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
+      )}
+
+      <BottomNav activeNav="payouts" />
     </div>
-    
   );
 }
